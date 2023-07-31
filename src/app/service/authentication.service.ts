@@ -1,39 +1,34 @@
 import { Injectable } from '@angular/core';
-import { LoginResponse } from '../chat-app/model/login-response';
 import { LoginBody } from '../chat-app/model/login-body';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
   private readonly tokenKey = 'CHAT_APP_ACCESS_TOKEN';
-  private accessToken: string | null = null;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private router: Router) { }
 
   get AccessToken(): string | null {
-    return this.accessToken;
+    return this.getAccessTokenFromCookieStorge()
   }
 
   public isAuthenticated() {
-    if (this.accessToken) {
-      return true;
-    }
     const tokenString = this.getAccessTokenFromCookieStorge();
     if (tokenString) {
       const loginResponse = this.parseAccessToken(tokenString);
-      const now = new Date().getDate();
-      if (loginResponse.issuedAt.getDate() + loginResponse.duration > now) {
-        this.accessToken = tokenString;
+      const now = Math.round(Date.now() / 1000);
+      if (loginResponse.exp > now) {
+        return true;
       }
-      return true;
     }
     return false;
   }
 
-  private parseAccessToken(token: string): LoginResponse {
+  private parseAccessToken(token: string): any {
     return JSON.parse(
       atob(token.substring(token.indexOf('.') + 1, token.lastIndexOf('.')))
     );
@@ -41,6 +36,7 @@ export class AuthenticationService {
 
   private getAccessTokenFromCookieStorge(): string | null {
     const cookies = document.cookie.split(';');
+    cookies.forEach(e => e.trimStart())
     const accessTokenCookie = cookies.find((e) => e.startsWith(this.tokenKey));
     if (accessTokenCookie) {
       return accessTokenCookie.substring(this.tokenKey.length + 1);
@@ -48,21 +44,19 @@ export class AuthenticationService {
     return null;
   }
 
-  private saveAccessTokenIntoCookieStorage(token: string) {
-    const cookies = document.cookie.split(';');
-    const accessTokenCookie = cookies.find((e) => e.startsWith(this.tokenKey));
-    if (accessTokenCookie) {
-      cookies.splice(cookies.indexOf(accessTokenCookie), 1);
-    }
-    cookies.push(`${this.tokenKey}=${token}`);
-    document.cookie = cookies.join(';');
+  private saveAccessTokenIntoCookieStorage(token: string, issuedAt: string, duration: number) {
+    const expired = Date.parse(issuedAt) + duration;
+    const expiredDate = new Date();
+    expiredDate.setDate(expired);
+    document.cookie = `${this.tokenKey}=${token};expire=${expiredDate.toUTCString()};path=/`
   }
 
   public authenticate(loginBody: LoginBody) {
     this.httpClient
       .post(`${environment.apiUrl}/rest/login`, loginBody)
-      .subscribe((resp:any) => {
-        this.accessToken = resp.token;
+      .subscribe((resp: any) => {
+        this.router.navigateByUrl("/app")
+        this.saveAccessTokenIntoCookieStorage(resp.token, resp.issuedAt, resp.duration)
       });
   }
 }

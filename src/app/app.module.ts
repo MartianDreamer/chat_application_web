@@ -7,11 +7,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
+import { RegistrationComponent } from './registration/registration.component';
+import { ChatAppModule } from './chat-app/chat-app.module';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
+  declarations: [AppComponent, LoginComponent, RegistrationComponent],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule, ChatAppModule],
   providers: [Router],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

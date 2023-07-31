@@ -1,13 +1,16 @@
-<div class="form-area">
-  <form>
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input type="text" name="username" id="username" />
+<div class="d-flex justify-content-center center-login-form align-items-center">
+  <form class="border border-2 rounded-2 border-light-subtle p-4" #f="ngForm" (submit)="onSubmit(f)">
+    <div class="mb-3">
+      <input class="form-control" type="text" id="username" name="username" placeholder="username" ngModel
+        #username='ngModel' required />
     </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" />
+    <div class="mb-3">
+      <input class="form-control" type="password" name="password" id="password" placeholder="password" ngModel
+        #password='ngModel' required />
     </div>
-    <button type="submit">Login</button>
+    <div class="d-flex justify-content-center flex-column mb-3">
+      <button type="submit" class="btn btn-primary mb-3" [disabled]="username.invalid || password.invalid">Login</button>
+      <a class="text-center" routerLink="/registration">Register</a>
+    </div>
   </form>
 </div>

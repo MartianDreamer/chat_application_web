@@ -15,6 +15,7 @@ export class AuthGuardService {
     const authed = this.authenticationService.isAuthenticated();
     if (!authed) {
       this.router.navigateByUrl('/login');
+      return authed;
     }
     return authed;
   }
