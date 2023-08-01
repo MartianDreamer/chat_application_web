@@ -10,9 +10,10 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RegistrationComponent } from './registration/registration.component';
 import { ChatAppModule } from './chat-app/chat-app.module';
 import { AuthenticationInterceptor } from './interceptor/authentication.interceptor';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, RegistrationComponent],
+  declarations: [AppComponent, LoginComponent, RegistrationComponent, ConfirmationComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

@@ -3,8 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AuthGuardService } from './service/auth-guard.service';
 import { RegistrationComponent } from './registration/registration.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 const routes: Routes = [
+  {
+    path: 'confirmation/:confirmationString',
+    component: ConfirmationComponent
+  },
   {
     path: 'registration',
     component: RegistrationComponent,

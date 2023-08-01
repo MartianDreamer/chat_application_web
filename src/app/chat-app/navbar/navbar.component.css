@@ -39,7 +39,7 @@
 .avatar-frame {
   border: 1px;
   margin-bottom: 5px;
-  border: solid lightgray;
+  border: solid rgba(150, 200, 30, 0.6);
   border-radius: 35px;
   content-visibility: auto;
 }

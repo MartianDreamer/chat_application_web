@@ -8,21 +8,31 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css']
+  styleUrls: ['./registration.component.css'],
 })
 export class RegistrationComponent implements OnInit {
-
-  constructor(private authenticationService: AuthenticationService, private router: Router, private httpClient: HttpClient) { }
+  constructor(
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private httpClient: HttpClient
+  ) {}
 
   ngOnInit(): void {
     if (this.authenticationService.isAuthenticated()) {
-      this.router.navigateByUrl('/app')
+      this.router.navigateByUrl('/app');
     }
   }
 
   onSubmit(f: NgForm) {
-    this.httpClient.put(`${environment.apiUrl}/rest/users`, f.value).subscribe(resp => {
-      this.router.navigateByUrl("/login")
-    })
+    const obs = this.httpClient
+      .put(`${environment.apiUrl}/rest/users`, f.value)
+      .subscribe({
+        next: () => {
+          this.router.navigateByUrl('/login');
+        },
+        complete: () => {
+          obs.unsubscribe();
+        },
+      });
   }
 }

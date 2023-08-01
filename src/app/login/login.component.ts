@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
     private httpClient: HttpClient,
     private authenticationService: AuthenticationService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     if (this.authenticationService.isAuthenticated()) {
@@ -27,20 +27,27 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(f: NgForm) {
-    this.authenticate(f.value)
+    this.authenticate(f.value);
   }
 
   private authenticate(loginBody: LoginBody) {
-    this.httpClient
+    const obs = this.httpClient
       .post(`${environment.apiUrl}/rest/login`, loginBody)
       .subscribe({
         next: (resp: any) => {
-          this.router.navigateByUrl("/app")
-          this.authenticationService.saveAccessTokenIntoCookieStorage(resp.token, resp.issuedAt, resp.duration)
+          this.router.navigateByUrl('/app');
+          this.authenticationService.saveAccessTokenIntoCookieStorage(
+            resp.token,
+            resp.issuedAt,
+            resp.duration
+          );
         },
-        error: (error: any) => {
-          this.failedToLogin = true
-        }
+        error: () => {
+          this.failedToLogin = true;
+        },
+        complete: () => {
+          obs.unsubscribe();
+        },
       });
   }
 }

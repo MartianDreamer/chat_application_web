@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
   constructor(private httpClient: HttpClient) {}
 
   ngOnInit(): void {
-    this.httpClient
+    const obs = this.httpClient
       .get(`${environment.apiUrl}/rest/users?self=true`)
       .pipe(
         concatMap((val: any) => {
@@ -32,8 +32,13 @@ export class NavbarComponent implements OnInit {
           );
         })
       )
-      .subscribe((res: any) => {
-        this.image = res.content;
+      .subscribe({
+        next: (res: any) => {
+          this.image = res.content;
+        },
+        complete: () => {
+          obs.unsubscribe();
+        },
       });
   }
 }
