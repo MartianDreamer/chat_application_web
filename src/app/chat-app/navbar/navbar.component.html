@@ -1,1 +1,21 @@
-<p>navbar works!</p>
+<div class="chat-app-navbar">
+  <div routerLink="/app/c" routerLinkActive="active-navbar-item" class="chat-app-navbar-item">
+    <img class="navbar-icon" [src]="
+        newConversationNotification
+          ? '/assets/icons/chat-square-text-fill.svg'
+          : '/assets/icons/chat-square-text.svg'
+      " alt="" />
+  </div>
+  <div routerLink="/app/f" routerLinkActive="active-navbar-item" class="chat-app-navbar-item">
+    <img class="navbar-icon" [src]="
+        newFriendNotification
+          ? '/assets/icons/people-fill.svg'
+          : '/assets/icons/people.svg'
+      " alt="" />
+  </div>
+  <div class="avatar-frame">
+    <div>
+      <img *ngIf="image" [src]="'data:image/jpeg;base64,' + image" alt="" class="avatar">
+    </div>
+  </div>
+</div>

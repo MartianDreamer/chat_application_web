@@ -1,0 +1,42 @@
+.chat-app-navbar {
+  height: 100vh;
+  width: 50px;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 10px;
+  padding: auto;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  padding: 2px;
+  padding-top: 5px;
+}
+
+.chat-app-navbar-item {
+  margin-bottom: 5px;
+  padding: 2px;
+}
+
+.navbar-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.active-navbar-item {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 3px;
+}
+
+.avatar {
+  height: 35px;
+  width: 35px;
+}
+
+.avatar-frame {
+  border: 1px;
+  margin-bottom: 5px;
+  border: solid lightgray;
+  border-radius: 35px;
+  content-visibility: auto;
+}

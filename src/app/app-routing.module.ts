@@ -6,12 +6,8 @@ import { RegistrationComponent } from './registration/registration.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: LoginComponent,
-  },
-  {
     path: 'registration',
-    component: RegistrationComponent
+    component: RegistrationComponent,
   },
   {
     path: 'login',
@@ -22,6 +18,11 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
     loadChildren: () =>
       import('./chat-app/chat-app.module').then((m) => m.ChatAppModule),
+  },
+  {
+    path: '**',
+    redirectTo: '/app/c',
+    pathMatch: 'full'
   },
 ];
 

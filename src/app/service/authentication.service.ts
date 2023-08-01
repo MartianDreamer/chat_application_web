@@ -10,10 +10,13 @@ import { Router } from '@angular/router';
 export class AuthenticationService {
   private readonly tokenKey = 'CHAT_APP_ACCESS_TOKEN';
 
-  constructor(private router: Router) { }
+  constructor() {}
+  private accessToken: string | undefined;
 
-  get AccessToken(): string | null {
-    return this.getAccessTokenFromCookieStorge()
+  get AccessToken(): string | undefined {
+    if (this.accessToken) return this.accessToken;
+    this.accessToken = this.getAccessTokenFromCookieStorge();
+    return this.accessToken;
   }
 
   public isAuthenticated() {
@@ -34,20 +37,26 @@ export class AuthenticationService {
     );
   }
 
-  private getAccessTokenFromCookieStorge(): string | null {
+  private getAccessTokenFromCookieStorge(): string | undefined {
     const cookies = document.cookie.split(';');
-    cookies.forEach(e => e.trimStart())
+    cookies.forEach((e) => e.trimStart());
     const accessTokenCookie = cookies.find((e) => e.startsWith(this.tokenKey));
     if (accessTokenCookie) {
       return accessTokenCookie.substring(this.tokenKey.length + 1);
     }
-    return null;
+    return;
   }
 
-  saveAccessTokenIntoCookieStorage(token: string, issuedAt: string, duration: number) {
+  saveAccessTokenIntoCookieStorage(
+    token: string,
+    issuedAt: string,
+    duration: number
+  ) {
     const expired = Date.parse(issuedAt) + duration;
     const expiredDate = new Date();
     expiredDate.setDate(expired);
-    document.cookie = `${this.tokenKey}=${token};expire=${expiredDate.toUTCString()};path=/`
+    document.cookie = `${
+      this.tokenKey
+    }=${token};expire=${expiredDate.toUTCString()};path=/`;
   }
 }
