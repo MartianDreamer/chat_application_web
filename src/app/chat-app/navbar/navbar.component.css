@@ -43,3 +43,44 @@
   border-radius: 35px;
   content-visibility: auto;
 }
+
+.profile-picture {
+  max-width: 96px;
+}
+
+.profile-picture-frame {
+  margin-bottom: 20px;
+  width: 96px;
+  height: 96px;
+  content-visibility: auto;
+  border: solid rgba(150, 200, 30, 0.6);
+  border-radius: 96px;
+}
+
+.user-menu {
+  background-color: white;
+  border-radius: 10px;
+  border: solid lightgray 1px;
+}
+
+.user-menu-item {
+  font-weight: 500;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.user-menu-item:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.my-account {
+  font-weight: 500;
+  background-color: white;
+  border-radius: 10px;
+  border: solid lightgray 1px;
+  padding: 10px;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  user-select: none; 
+}

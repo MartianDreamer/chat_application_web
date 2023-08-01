@@ -20,6 +20,7 @@ export class AuthenticationService {
   }
 
   public isAuthenticated() {
+    if (this.accessToken) return true;
     const tokenString = this.getAccessTokenFromCookieStorge();
     if (tokenString) {
       const loginResponse = this.parseAccessToken(tokenString);
@@ -57,6 +58,16 @@ export class AuthenticationService {
     expiredDate.setDate(expired);
     document.cookie = `${
       this.tokenKey
-    }=${token};expire=${expiredDate.toUTCString()};path=/`;
+    }=${token};Expires=${expiredDate.toUTCString()};path=/;`;
+  }
+
+  deleteToken() {
+    const token = this.accessToken
+      ? this.accessToken
+      : this.getAccessTokenFromCookieStorge();
+    const expiredDate = new Date(0);
+    document.cookie = `${
+      this.tokenKey
+    }=${token};Expires=${expiredDate.toUTCString()};Path=/;`;
   }
 }

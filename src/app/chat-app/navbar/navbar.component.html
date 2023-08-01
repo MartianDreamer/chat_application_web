@@ -29,20 +29,56 @@
       alt=""
     />
   </div>
-  <div class="avatar-frame">
-    <div>
-      <img
-        *ngIf="image"
-        [src]="'data:image/jpeg;base64,' + image"
-        alt=""
-        class="avatar"
-      />
-      <img
-        *ngIf="!image"
-        src="/assets/images/Classic_Outfit.png"
-        alt=""
-        class="avatar"
-      />
-    </div>
+  <div class="avatar-frame" (click)="onClickOnAvatar($event)">
+    <img
+      src="{{
+        image
+          ? 'data:image/jpeg;base64,' + image
+          : '/assets/images/Classic_Outfit.png'
+      }}"
+      alt=""
+      class="avatar"
+    />
   </div>
 </div>
+<div class="user-menu" [style]="userMenuStyle">
+  <div class="user-menu-item" (click)="onMyAccountClick()">My account</div>
+  <div
+    class="user-menu-item"
+    style="border-top: solid rgba(0, 0, 0, 0.1) 1px"
+    (click)="onLogoutClick()"
+  >
+    Logout
+  </div>
+</div>
+<form>
+  <div class="my-account" [style]="myAccountStyle" (dragend)="onDragMyAccount($event)" draggable="true">
+    <div class="profile-picture-frame">
+      <img
+        src="{{
+          image
+            ? 'data:image/jpeg;base64,' + image
+            : '/assets/images/Classic_Outfit.png'
+        }}"
+        alt=""
+        class="profile-picture"
+      />
+    </div>
+    <p>
+      Username: {{ Self?.username }}
+      <img src="/assets/icons/pencil-fill.svg" alt="" />
+    </p>
+    <p>
+      Email: {{ Self?.email }}
+      <img src="/assets/icons/pencil-fill.svg" alt="" />
+    </p>
+    <p>
+      Phone number: {{ Self?.phoneNumber }}
+      <img src="/assets/icons/pencil-fill.svg" alt="" />
+    </p>
+    <div>
+      <button type="submit" class="btn btn-success me-2">Save</button>
+      <button (click)="closeMyAccount($event)" class="btn btn-danger">Close</button>
+    </div>
+  </div>
+</form>
