@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class AuthenticationService {
   private readonly tokenKey = 'CHAT_APP_ACCESS_TOKEN';
 
-  constructor(private httpClient: HttpClient, private router: Router) { }
+  constructor(private router: Router) { }
 
   get AccessToken(): string | null {
     return this.getAccessTokenFromCookieStorge()
@@ -44,19 +44,10 @@ export class AuthenticationService {
     return null;
   }
 
-  private saveAccessTokenIntoCookieStorage(token: string, issuedAt: string, duration: number) {
+  saveAccessTokenIntoCookieStorage(token: string, issuedAt: string, duration: number) {
     const expired = Date.parse(issuedAt) + duration;
     const expiredDate = new Date();
     expiredDate.setDate(expired);
     document.cookie = `${this.tokenKey}=${token};expire=${expiredDate.toUTCString()};path=/`
-  }
-
-  public authenticate(loginBody: LoginBody) {
-    this.httpClient
-      .post(`${environment.apiUrl}/rest/login`, loginBody)
-      .subscribe((resp: any) => {
-        this.router.navigateByUrl("/app")
-        this.saveAccessTokenIntoCookieStorage(resp.token, resp.issuedAt, resp.duration)
-      });
   }
 }

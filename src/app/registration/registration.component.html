@@ -1,1 +1,23 @@
-<p>registration works!</p>
+<div class="d-flex justify-content-center center-user-input-form align-items-center">
+  <form class="border border-2 rounded-2 border-light-subtle p-4" #f="ngForm" (submit)="onSubmit(f)">
+    <div class="mb-3">
+      <input class="form-control" type="text" id="username" name="username" placeholder="Username" ngModel
+        #username='ngModel' required minlength="5" maxlength="20" />
+    </div>
+    <div class="mb-3">
+      <input class="form-control" type="password" name="password" id="password" placeholder="Password" ngModel
+        #password='ngModel' required minlength="8" maxlength="30" />
+    </div>
+    <div class="mb-3">
+      <input class="form-control" type="text" name="email" id="email" placeholder="Email" ngModel #email='ngModel'
+        required email />
+    </div>
+    <div class="mb-3">
+      <input class="form-control" type="text" name="phoneNumber" id="phone-number" placeholder="Phone number" ngModel
+        #phoneNumber='ngModel' required pattern="^\+?[0-9]{10,11}$" />
+    </div>
+    <div class="d-flex justify-content-center flex-column mb-3">
+      <button type="submit" class="btn btn-primary mb-3" [disabled]="f.invalid">Register</button>
+    </div>
+  </form>
+</div>
