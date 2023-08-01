@@ -1,5 +1,9 @@
-<div class="d-flex p-2">
+<div class="chat-app-container p-2">
   <app-navbar></app-navbar>
   <router-outlet></router-outlet>
-  <app-chat-box></app-chat-box>
+  <app-chat-box
+    [style]="{
+      width: '100%'
+    }"
+  ></app-chat-box>
 </div>

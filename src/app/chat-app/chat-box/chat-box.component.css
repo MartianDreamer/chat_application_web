@@ -1,0 +1,9 @@
+.chat-box-container {
+  height: 98.5vh;
+  width: 99.5%;
+  background-color: rgba(0, 0, 0, 0.05);
+  margin-left: 5px;
+  border-radius: 10px;
+  border: solid 1px;
+  border-color: lightgray;
+}

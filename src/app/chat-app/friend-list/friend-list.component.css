@@ -1,0 +1,10 @@
+.friend-list-container {
+  height: 98.5vh;
+  width: 400px;
+  background-color: rgba(0, 0, 0, 0.05);
+  margin-left: 2px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border: solid 1px;
+  border-color: lightgray;
+}

@@ -9,6 +9,7 @@ import { ConversationListComponent } from './conversation-list/conversation-list
 import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { UserInputComponent } from './chat-box/user-input/user-input.component';
 import { ConversationContentComponent } from './chat-box/conversation-content/conversation-content.component';
+import { FriendItemComponent } from './friend-list/friend-item/friend-item.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ConversationContentComponent } from './chat-box/conversation-content/co
     ConversationListComponent,
     ChatBoxComponent,
     UserInputComponent,
-    ConversationContentComponent
+    ConversationContentComponent,
+    FriendItemComponent
   ],
   imports: [
     CommonModule,
