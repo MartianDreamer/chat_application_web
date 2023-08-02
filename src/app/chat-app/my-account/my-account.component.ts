@@ -39,6 +39,7 @@ export class MyAccountComponent {
   tempEmail = this.selfService.Self?.email;
   tempPhoneNumber = this.selfService.Self?.phoneNumber;
   tempPassword: string | undefined;
+  error = false;
   @Output() closeMyAccountEvent = new EventEmitter<boolean>();
   @ViewChild('avatarInput') avatarInput: ElementRef | undefined;
 
@@ -123,11 +124,14 @@ export class MyAccountComponent {
       phoneNumber: this.tempPhoneNumber,
     });
     const avaObs = this.uploadAvatar();
-    obs.pipe(combineLatestWith(avaObs)).subscribe(([user, ava]) => {
-      if (this.tempAvatar) {
-        this.selfService.Image = this.tempAvatar;
-      }
-      this.closeMyAccount();
+    obs.pipe(combineLatestWith(avaObs)).subscribe({
+      next: () => {
+        if (this.tempAvatar) this.selfService.Image = this.tempAvatar;
+        this.closeMyAccount();
+      },
+      error: () => {
+        this.error = true;
+      },
     });
   }
 

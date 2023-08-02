@@ -1,6 +1,7 @@
 <form>
   <div
     class="my-account"
+    [class.failed]="error"
     [style]="myAccountStyle"
     (dragend)="onDragEndMyAccount($event)"
     (dragstart)="onDragStartMyAccount($event)"
