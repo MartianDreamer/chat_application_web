@@ -23,7 +23,7 @@
   user-select: none;
   display: flex;
   position: absolute;
-  min-width: 275px;
+  min-width: 400px;
 }
 
 .user-inf-item {
