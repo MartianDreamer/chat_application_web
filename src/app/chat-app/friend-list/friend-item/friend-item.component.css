@@ -1,0 +1,44 @@
+.avatar {
+  width: 44px;
+}
+
+.avatar-frame {
+  width: 44px;
+  height: 44px;
+  border-radius: 44px;
+  border: solid 1px grey;
+  content-visibility: auto;
+  margin-right: 10px;
+}
+
+.friend-item-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 5px;
+  margin-bottom: 2px;
+  cursor: default;
+}
+
+.friend-item-container:hover {
+  background-color: rgb(200, 200, 200);
+}
+
+.friend-item-container-select {
+  background-color: rgb(200, 200, 200);
+}
+
+.username-container {
+  font-size: larger;
+  font-weight: 500;
+  font-family: unset;
+}
+
+.friend-control {
+  display: flex;
+  justify-content: end;
+}
+
+.online {
+  border: solid 3px rgb(100, 220, 100) !important;
+}

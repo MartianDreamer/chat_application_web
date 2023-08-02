@@ -1,15 +1,28 @@
-import { Injectable } from '@angular/core';
-import { User, UserEdit } from '../chat-app/model/user';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { concatMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { User, UserEdit } from '../model/user';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SelfService {
   private self: User | undefined;
   private image: string | undefined;
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {
+    this.httpClient
+      .get(`${environment.apiUrl}/rest/users?self=true`)
+      .pipe(
+        concatMap((val: any) => {
+          this.self = val;
+          return this.httpClient.get(
+            `${environment.apiUrl}/rest/users/avatar/${val.id}`
+          );
+        })
+      )
+      .subscribe((res: any) => {
+        this.image = res.content;
+      });
+  }
 
   set Self(self: User) {
     this.self = self;

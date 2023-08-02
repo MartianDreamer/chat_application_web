@@ -24,15 +24,10 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit(f: NgForm) {
-    const obs = this.httpClient
+    this.httpClient
       .put(`${environment.apiUrl}/rest/users`, f.value)
-      .subscribe({
-        next: () => {
-          this.router.navigateByUrl('/login');
-        },
-        complete: () => {
-          obs.unsubscribe();
-        },
+      .subscribe(() => {
+        this.router.navigateByUrl('/login');
       });
   }
 }

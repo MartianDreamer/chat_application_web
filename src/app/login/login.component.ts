@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   }
 
   private authenticate(loginBody: LoginBody) {
-    const obs = this.httpClient
+    this.httpClient
       .post(`${environment.apiUrl}/rest/login`, loginBody)
       .subscribe({
         next: (resp: any) => {
@@ -44,9 +44,6 @@ export class LoginComponent implements OnInit {
         },
         error: () => {
           this.failedToLogin = true;
-        },
-        complete: () => {
-          obs.unsubscribe();
         },
       });
   }

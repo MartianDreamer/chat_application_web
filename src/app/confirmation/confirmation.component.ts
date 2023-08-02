@@ -18,7 +18,7 @@ export class ConfirmationComponent implements OnInit {
   isTrying = true;
 
   ngOnInit(): void {
-    const obs = this.activatedRoute.paramMap
+    this.activatedRoute.paramMap
       .pipe(
         concatMap((params) => {
           const confirmString = params.get('confirmationString');
@@ -36,7 +36,6 @@ export class ConfirmationComponent implements OnInit {
         },
         complete: () => {
           this.isTrying = false;
-          obs.unsubscribe();
         },
       });
   }

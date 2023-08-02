@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { concatMap } from 'rxjs';
-import { SelfService } from 'src/app/service/self.service';
 import { environment } from 'src/environments/environment';
+import { SelfService } from '../service/self.service';
 
 @Component({
   selector: 'app-navbar',
@@ -35,24 +35,6 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const obs = this.httpClient
-      .get(`${environment.apiUrl}/rest/users?self=true`)
-      .pipe(
-        concatMap((val: any) => {
-          this.selfService.Self = val;
-          return this.httpClient.get(
-            `${environment.apiUrl}/rest/users/avatar/${val.id}`
-          );
-        })
-      )
-      .subscribe({
-        next: (res: any) => {
-          this.selfService.Image = res.content;
-        },
-        complete: () => {
-          obs.unsubscribe();
-        },
-      });
   }
 
   onAvatarClick(e: MouseEvent) {

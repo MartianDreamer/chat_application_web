@@ -1,0 +1,14 @@
+<div class="friend-item-container">
+  <div class="avatar-frame" [class.online]="friendship?.friend?.online">
+    <img
+      [src]="
+        image
+          ? 'data:image/jpeg;base64,' + image
+          : 'assets/images/Classic_Outfit.png'
+      "
+      alt=""
+      class="avatar"
+    />
+  </div>
+  <div class="username-container">{{ friendship?.friend?.username }}</div>
+</div>

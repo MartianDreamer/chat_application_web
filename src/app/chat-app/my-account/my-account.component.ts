@@ -6,16 +6,9 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import {
-  Observable,
-  Subject,
-  Subscription,
-  combineLatest,
-  combineLatestWith,
-} from 'rxjs';
-import { SelfService } from 'src/app/service/self.service';
+import { Observable, combineLatestWith } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { SelfService } from '../service/self.service';
 
 @Component({
   selector: 'app-my-account',
@@ -127,6 +120,15 @@ export class MyAccountComponent {
     obs.pipe(combineLatestWith(avaObs)).subscribe({
       next: () => {
         if (this.tempAvatar) this.selfService.Image = this.tempAvatar;
+        const newSelf = {
+          id: this.Self?.id as string,
+          username: this.tempUsername as string,
+          email: this.tempEmail as string,
+          phoneNumber: this.tempPhoneNumber as string,
+          online: this.Self?.online as boolean,
+          lastSeen: this.Self?.lastSeen as string,
+        };
+        this.selfService.Self = newSelf;
         this.closeMyAccount();
       },
       error: () => {

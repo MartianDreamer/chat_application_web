@@ -8,3 +8,9 @@
   border: solid 1px;
   border-color: lightgray;
 }
+
+.friend-list {
+  height: 95%;
+  list-style: none;
+  padding: 5px;
+}
