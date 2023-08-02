@@ -1,0 +1,117 @@
+<form>
+  <div
+    class="my-account"
+    [style]="myAccountStyle"
+    (dragend)="onDragEndMyAccount($event)"
+    (dragstart)="onDragStartMyAccount($event)"
+    draggable="true"
+  >
+    <div class="profile-picture-frame" (click)="openFileSelection($event)">
+      <img
+        src="{{
+          tempAvatar
+            ? 'data:image/jpeg;base64,' + tempAvatar
+            : Image
+            ? 'data:image/jpeg;base64,' + Image
+            : '/assets/images/Classic_Outfit.png'
+        }}"
+        alt=""
+        class="profile-picture"
+      />
+    </div>
+    <div class="user-inf-item" *ngIf="!isEdittingUsername">
+      <span>Username:</span>
+      <span>
+        {{ tempUsername }}
+        <img
+          src="/assets/icons/pencil-fill.svg"
+          (click)="editUsername()"
+          alt=""
+        />
+      </span>
+    </div>
+    <input
+      type="text"
+      name="username"
+      class="form-control custom-form-control"
+      [value]="tempUsername"
+      (input)="tempUsername = $event.target.value"
+      [placeholder]="Self?.username"
+      (focusout)="editUsername()"
+      *ngIf="isEdittingUsername"
+      appAutoFocus
+    />
+    <div class="user-inf-item" *ngIf="!isEdittingEmail">
+      <span> Email: </span>
+      <span>
+        {{ tempEmail }}
+        <img src="/assets/icons/pencil-fill.svg" (click)="editEmail()" alt="" />
+      </span>
+    </div>
+    <input
+      type="text"
+      name="email"
+      class="form-control custom-form-control"
+      [value]="tempEmail"
+      (input)="tempEmail = $event.target.value"
+      [placeholder]="Self?.email"
+      (focusout)="editEmail()"
+      *ngIf="isEdittingEmail"
+      appAutoFocus
+    />
+    <div class="user-inf-item" *ngIf="!isEdittingPhone">
+      <span> Phone number: </span>
+      <span>
+        {{ tempPhoneNumber }}
+        <img src="/assets/icons/pencil-fill.svg" (click)="editPhone()" alt="" />
+      </span>
+    </div>
+    <input
+      type="text"
+      name="phoneNumber"
+      class="form-control custom-form-control"
+      [value]="tempPhoneNumber"
+      (input)="tempPhoneNumber = $event.target.value"
+      [placeholder]="Self?.phoneNumber"
+      (focusout)="editPhone()"
+      *ngIf="isEdittingPhone"
+      appAutoFocus
+    />
+    <div class="user-inf-item" *ngIf="!isEdittingPassword">
+      <span> Password: </span>
+      <span>
+        ****
+        <img
+          src="/assets/icons/pencil-fill.svg"
+          (click)="editPassword()"
+          alt=""
+        />
+      </span>
+    </div>
+    <input
+      type="password"
+      name="password"
+      class="form-control custom-form-control"
+      (input)="tempPassword = $event.target.value"
+      placeholder="Password"
+      (focusout)="editPassword()"
+      *ngIf="isEdittingPassword"
+      appAutoFocus
+    />
+    <div>
+      <button type="submit" class="btn btn-success me-2" (click)="onSave()">
+        Save
+      </button>
+      <button (click)="closeMyAccount($event)" class="btn btn-danger">
+        Close
+      </button>
+    </div>
+  </div>
+</form>
+<input
+  hidden
+  #avatarInput
+  type="file"
+  (change)="onAvatarChange($event)"
+  name="file"
+/>

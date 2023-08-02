@@ -53,6 +53,7 @@ export class AuthenticationService {
     issuedAt: string,
     duration: number
   ) {
+    this.accessToken = token;
     const expired = Date.parse(issuedAt) + duration;
     const expiredDate = new Date();
     expiredDate.setDate(expired);

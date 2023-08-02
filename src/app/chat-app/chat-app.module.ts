@@ -10,6 +10,10 @@ import { ChatBoxComponent } from './chat-box/chat-box.component';
 import { UserInputComponent } from './chat-box/user-input/user-input.component';
 import { ConversationContentComponent } from './chat-box/conversation-content/conversation-content.component';
 import { FriendItemComponent } from './friend-list/friend-item/friend-item.component';
+import { AvatarClickMenuComponent } from './avatar-click-menu/avatar-click-menu.component';
+import { MyAccountComponent } from './my-account/my-account.component';
+import { FormsModule } from '@angular/forms';
+import { AutoFocusDirective } from '../directive/auto-focus.directive';
 
 
 @NgModule({
@@ -21,11 +25,15 @@ import { FriendItemComponent } from './friend-list/friend-item/friend-item.compo
     ChatBoxComponent,
     UserInputComponent,
     ConversationContentComponent,
-    FriendItemComponent
+    FriendItemComponent,
+    AvatarClickMenuComponent,
+    MyAccountComponent,
+    AutoFocusDirective
   ],
   imports: [
     CommonModule,
-    ChatAppRoutingModule
+    ChatAppRoutingModule,
+    FormsModule
   ]
 })
 export class ChatAppModule { }

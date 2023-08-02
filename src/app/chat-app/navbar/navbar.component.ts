@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { concatMap } from 'rxjs';
-import { AuthenticationService } from 'src/app/service/authentication.service';
 import { SelfService } from 'src/app/service/self.service';
 import { environment } from 'src/environments/environment';
 
@@ -22,22 +21,16 @@ export class NavbarComponent implements OnInit {
     return this.selfService.Self;
   }
 
-  image: String | undefined;
-  userMenuStyle: any = {
-    display: 'none',
-  };
-  myAccountStyle = {
-    display: 'none',
-    position: 'absolute',
-    left: `${window.innerWidth / 2 - 100}px`,
-    top: `${window.innerHeight / 2 - 100}px`,
-  };
-  justOpen = false;
+  get Image() {
+    return this.selfService.Image;
+  }
+
+  openAvatarClickMenu: boolean | undefined;
+  clickLocation: any;
+  openMyAccount: boolean | undefined;
 
   constructor(
     private httpClient: HttpClient,
-    private renderer: Renderer2,
-    private authService: AuthenticationService,
     private selfService: SelfService
   ) {}
 
@@ -54,54 +47,31 @@ export class NavbarComponent implements OnInit {
       )
       .subscribe({
         next: (res: any) => {
-          this.image = res.content;
+          this.selfService.Image = res.content;
         },
         complete: () => {
           obs.unsubscribe();
         },
       });
-    this.renderer.listen('window', 'click', (e: any) => {
-      if (this.userMenuStyle.display !== 'none' && !this.justOpen) {
-        this.userMenuStyle = {
-          display: 'none',
-        };
-      }
-      if (this.justOpen) {
-        this.justOpen = false;
-      }
-    });
   }
 
-  onClickOnAvatar(e: MouseEvent) {
-    this.userMenuStyle = {
-      display: 'block',
-      position: 'absolute',
+  onAvatarClick(e: MouseEvent) {
+    this.openAvatarClickMenu = true;
+    this.clickLocation = {
       left: `${e.clientX}px`,
       top: `${e.clientY}px`,
     };
-    this.justOpen = true;
   }
 
-  onLogoutClick() {
-    this.authService.deleteToken();
-    location.reload();
+  closeOnAvatarClickMenu(e: boolean) {
+    this.openAvatarClickMenu = e;
   }
 
-  onMyAccountClick() {
-    this.myAccountStyle = { ...this.myAccountStyle, display: 'flex' };
+  closeMyAccount(e: boolean) {
+    this.openMyAccount = e;
   }
 
-  closeMyAccount(e: Event) {
-    e.preventDefault();
-    this.myAccountStyle = { ...this.myAccountStyle, display: 'none' };
-  }
-
-  onDragMyAccount(e: MouseEvent) {
-    e.preventDefault();
-    this.myAccountStyle = {
-      ...this.myAccountStyle,
-      left: `${e.clientX}px`,
-      top: `${e.clientY}px`,
-    };
+  renderMyAccount(e: boolean) {
+    this.openMyAccount = e;
   }
 }

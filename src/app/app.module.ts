@@ -11,9 +11,15 @@ import { RegistrationComponent } from './registration/registration.component';
 import { ChatAppModule } from './chat-app/chat-app.module';
 import { AuthenticationInterceptor } from './interceptor/authentication.interceptor';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { AutoFocusDirective } from './directive/auto-focus.directive';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, RegistrationComponent, ConfirmationComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    RegistrationComponent,
+    ConfirmationComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

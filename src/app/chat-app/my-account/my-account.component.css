@@ -1,0 +1,39 @@
+.profile-picture {
+  max-width: 96px;
+}
+
+.profile-picture-frame {
+  margin-bottom: 20px;
+  width: 96px;
+  height: 96px;
+  content-visibility: auto;
+  border: solid rgba(150, 200, 30, 0.6);
+  border-radius: 96px;
+}
+
+.my-account {
+  font-weight: 500;
+  background-color: white;
+  border-radius: 10px;
+  border: solid lightgray 1px;
+  padding: 15px;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  user-select: none;
+  display: flex;
+  position: absolute;
+  min-width: 275px;
+}
+
+.user-inf-item {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.custom-form-control {
+  max-height: 35px;
+  margin-bottom: 10px;
+}
