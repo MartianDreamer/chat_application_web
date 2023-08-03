@@ -209,6 +209,11 @@ export class FriendService {
         notification.content,
         ...this.friendRequestToMe,
       ];
+    } else {
+      this.friendList = [notification.content, ...this.friendList];
+      this.friendRequestFromMe = this.friendRequestFromMe.filter(
+        (e) => e.user.id !== notification.content.friend.id
+      );
     }
   }
 }
