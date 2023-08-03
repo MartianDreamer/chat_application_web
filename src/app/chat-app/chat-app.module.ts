@@ -20,6 +20,7 @@ import { NotificationService } from './service/notification.service';
 import { SelfService } from './service/self.service';
 import { DraggableComponent } from './draggable.component';
 import { ToMeRequestItemComponent } from './friend-list/to-me-request-item/to-me-request-item.component';
+import { WebsocketConnectService } from './service/websocket-connect.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { ToMeRequestItemComponent } from './friend-list/to-me-request-item/to-me
   providers: [
     SelfService,
     FriendService,
-    NotificationService
+    NotificationService,
+    WebsocketConnectService
   ]
 })
 export class ChatAppModule {}

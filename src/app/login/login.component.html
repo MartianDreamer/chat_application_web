@@ -1,12 +1,39 @@
-<div class="d-flex justify-content-center center-user-input-form align-items-center">
-  <form class="border border-2 rounded-2 p-4" [class.border-light-subtle]="!failedToLogin" [class.border-danger]="failedToLogin" #f="ngForm" (submit)="onSubmit(f)">
+<div
+  class="d-flex justify-content-center center-user-input-form align-items-center"
+>
+  <form
+    class="border border-2 rounded-2 p-4"
+    [class.border-light-subtle]="!failedToLogin"
+    [class.border-danger]="failedToLogin"
+    #f="ngForm"
+    (submit)="onSubmit(f)"
+  >
     <div class="mb-3">
-      <input class="form-control" type="text" id="username" name="username" placeholder="username" ngModel
-        #username='ngModel' required [class.border-danger]="failedToLogin"/>
+      <input
+        class="form-control"
+        type="text"
+        id="username"
+        name="username"
+        placeholder="username"
+        ngModel
+        #username="ngModel"
+        required
+        [class.border-danger]="failedToLogin"
+      />
     </div>
     <div class="mb-3">
-      <input class="form-control" type="password" name="password" id="password" placeholder="password" ngModel
-        #password='ngModel' required [class.border-danger]="failedToLogin"/>
+      <input
+        class="form-control"
+        type="password"
+        name="password"
+        id="password"
+        placeholder="password"
+        ngModel
+        #password="ngModel"
+        required
+        [class.border-danger]="failedToLogin"
+        autocomplete
+      />
     </div>
     <div class="d-flex justify-content-center flex-column mb-3">
       <button type="submit" class="btn btn-primary mb-3">Login</button>

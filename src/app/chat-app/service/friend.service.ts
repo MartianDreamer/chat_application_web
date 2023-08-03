@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FriendRelationship } from '../model/friend';
 import { User } from '../model/user';
+import { NotificationService } from './notification.service';
+import { AppNotification, ONLINE_STATUS_CHANGE } from '../model/notification';
 
 @Injectable()
 export class FriendService {
@@ -25,10 +27,16 @@ export class FriendService {
     return this.friendRequestToMe;
   }
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient,
+    private notificationService: NotificationService
+  ) {
     this.loadMoreFriend();
     this.loadMoreFromMeRequest();
     this.loadMoreToMeRequest();
+    this.notificationService.FriendRelationshipObservable.subscribe(
+      this.handleNotification
+    );
   }
 
   loadAvatar(id: string) {
@@ -172,10 +180,28 @@ export class FriendService {
   getFriendByFriendId(id: string) {
     return this.friendList.find((e) => e.friend.id === id);
   }
+
   getFromMeRequestByFriendId(id: string) {
     return this.friendList.find((e) => e.friend.id === id);
   }
+
   getToMeRequestByFriendId(id: string) {
     return this.friendList.find((e) => e.friend.id === id);
+  }
+
+  handleNotification(notification: AppNotification) {
+    if (notification.type === ONLINE_STATUS_CHANGE) {
+      const friend = this.friendList.find(
+        (e) => e.friend.id === notification.content.id
+      );
+      if (friend) {
+        friend.friend.online = notification.content.online;
+        friend.friend.lastSeen = notification.content.lastSeen;
+        this.friendList = [
+          friend,
+          ...this.friendList.filter((e) => e != friend),
+        ];
+      }
+    }
   }
 }
