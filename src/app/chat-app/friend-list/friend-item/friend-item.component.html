@@ -12,20 +12,7 @@
   </div>
   <div class="username-container">{{ friendship?.friend?.username }}</div>
   <div class="friend-control">
-    <div
-      class="friend-control-button-unfriend"
-      (click)="unfriend()"
-      *ngIf="friendService.isFriend(friendship?.friend?.id); else notFriend"
-    ></div>
-    <ng-template #notFriend>
-      <div
-        class="friend-control-button-add"
-        [class]="
-          friendship?.type === 'TO' ? 'friend-control-button-add-clicked' : ''
-        "
-        (click)="addFriend($event)"
-      ></div>
-    </ng-template>
+    <div class="friend-control-button-unfriend" (click)="unfriend()"></div>
   </div>
 </div>
 <app-modal

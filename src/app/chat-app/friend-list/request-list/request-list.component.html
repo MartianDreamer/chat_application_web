@@ -1,0 +1,22 @@
+<ul
+  class="overflow-auto friend-list"
+  style="height: 40%"
+  (scroll)="scrollEnd($event, 'to')"
+  *ngIf="friendService.ToMeRequest.length > 0"
+>
+  <p class="ul-title">Friend request to me.</p>
+  <li *ngFor="let item of friendService.ToMeRequest">
+    <app-to-me-request-item [friendRequest]="item"></app-to-me-request-item>
+  </li>
+</ul>
+<ul
+  class="overflow-auto friend-list"
+  style="height: 40%"
+  (scroll)="scrollEnd($event, 'from')"
+  *ngIf="friendService.FromMeRequest.length > 0"
+>
+  <p class="ul-title">Friend request from me.</p>
+  <li *ngFor="let item of friendService.FromMeRequest">
+    <app-from-me-request [friendRequest]="item"></app-from-me-request>
+  </li>
+</ul>

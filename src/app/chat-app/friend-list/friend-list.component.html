@@ -7,9 +7,9 @@
       <span class="input-group-text" id="basic-addon1">
         <img
           [src]="
-            mode === 'request'
+            mode !== 'friend'
               ? '/assets/icons/person-square.svg'
-              : ToMeRequest.length > 0
+              : friendService.ToMeRequest.length > 0
               ? '/assets/icons/bell-fill.svg'
               : '/assets/icons/bell.svg'
           "
@@ -27,46 +27,5 @@
       (keyup.backspace)="onBackspace($event)"
     />
   </div>
-  <ul
-    class="overflow-auto friend-list"
-    (scroll)="scrollEnd($event)"
-    [hidden]="mode !== 'friend'"
-  >
-    <li *ngFor="let item of FriendList">
-      <app-friend-item [friendship]="item"></app-friend-item>
-    </li>
-  </ul>
-  <ul
-    class="overflow-auto friend-list"
-    (scroll)="scrollEnd($event)"
-    [hidden]="mode !== 'search'"
-  >
-    <li>
-      <app-friend-item [friendship]="searchResult"></app-friend-item>
-    </li>
-  </ul>
-  <div [hidden]="mode !== 'request'">
-    <ul
-      class="overflow-auto friend-list"
-      style="height: 40%"
-      (scroll)="scrollEnd($event)"
-      *ngIf="ToMeRequest.length > 0"
-    >
-      <p class="ul-title">Friend request to me.</p>
-      <li *ngFor="let item of ToMeRequest">
-        <app-to-me-request-item [friendship]="item"></app-to-me-request-item>
-      </li>
-    </ul>
-    <ul
-      class="overflow-auto friend-list"
-      style="height: 40%"
-      (scroll)="scrollEnd($event)"
-      *ngIf="FromMeRequest.length > 0"
-    >
-      <p class="ul-title">Friend request from me.</p>
-      <li *ngFor="let item of FromMeRequest">
-        <app-friend-item [friendship]="item"></app-friend-item>
-      </li>
-    </ul>
-  </div>
+  <router-outlet></router-outlet>
 </div>

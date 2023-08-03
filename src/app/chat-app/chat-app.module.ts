@@ -21,6 +21,11 @@ import { SelfService } from './service/self.service';
 import { DraggableComponent } from './draggable.component';
 import { ToMeRequestItemComponent } from './friend-list/to-me-request-item/to-me-request-item.component';
 import { WebsocketConnectService } from './service/websocket-connect.service';
+import { SearchItemComponent } from './friend-list/search-item/search-item.component';
+import { SearchListComponent } from './friend-list/search-list/search-list.component';
+import { RequestListComponent } from './friend-list/request-list/request-list.component';
+import { FriendshipListComponent } from './friend-list/friendship-list/friendship-list.component';
+import { FromMeRequestComponent } from './friend-list/from-me-request/from-me-request.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +42,12 @@ import { WebsocketConnectService } from './service/websocket-connect.service';
     AutoFocusDirective,
     ModalComponent,
     DraggableComponent,
-    ToMeRequestItemComponent
+    ToMeRequestItemComponent,
+    SearchItemComponent,
+    SearchListComponent,
+    RequestListComponent,
+    FriendshipListComponent,
+    FromMeRequestComponent
   ],
   imports: [CommonModule, ChatAppRoutingModule, FormsModule],
   providers: [

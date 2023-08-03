@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FriendRelationship } from '../../model/friend';
+import { FriendRelationship, FriendRequest } from '../../model/friend';
 import { FriendService } from '../../service/friend.service';
 
 @Component({
@@ -8,23 +8,23 @@ import { FriendService } from '../../service/friend.service';
   styleUrls: ['./to-me-request-item.component.css'],
 })
 export class ToMeRequestItemComponent implements OnInit {
-  @Input() friendship: FriendRelationship | undefined;
+  @Input() friendRequest: FriendRequest | undefined;
 
   constructor(public friendService: FriendService) {}
 
   ngOnInit(): void {
-    if (!this.friendship) return;
+    if (!this.friendRequest) return;
     this.friendService
-      .loadAvatar(this.friendship?.friend.id as string)
+      .loadAvatar(this.friendRequest?.user.id as string)
       .subscribe((res: any) => {
-        if (this.friendship) this.friendship.friend.avatar = res.content;
+        if (this.friendRequest) this.friendRequest.user.avatar = res.content;
       });
   }
 
   reject() {
-    this.friendService.rejectFriendRequestToMe(this.friendship?.id as string);
+    this.friendService.rejectFriendRequestToMe(this.friendRequest?.id as string);
   }
   accept() {
-    this.friendService.acceptFriendRequest(this.friendship?.id as string);
+    this.friendService.acceptFriendRequest(this.friendRequest?.id as string);
   }
 }

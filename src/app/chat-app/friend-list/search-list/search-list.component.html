@@ -1,0 +1,8 @@
+<ul class="overflow-auto friend-list">
+  <li>
+    <app-search-item [user]="result" *ngIf="result"></app-search-item>
+    <div *ngIf="!result" class="alert alert-danger" role="alert">
+      Not found user!!!
+    </div>
+  </li>
+</ul>

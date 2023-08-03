@@ -1,0 +1,5 @@
+<ul class="overflow-auto friend-list" (scroll)="scrollEnd($event)">
+  <li *ngFor="let item of friendService.FriendList">
+    <app-friend-item [friendship]="item"></app-friend-item>
+  </li>
+</ul>

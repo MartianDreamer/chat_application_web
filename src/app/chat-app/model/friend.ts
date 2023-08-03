@@ -4,5 +4,10 @@ export interface FriendRelationship {
   id: string | undefined;
   since: string | undefined;
   friend: User;
-  type: string | undefined;
+}
+
+export interface FriendRequest {
+  id: string;
+  user: User;
+  type: string; 
 }

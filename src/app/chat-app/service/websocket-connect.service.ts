@@ -15,8 +15,7 @@ export class WebsocketConnectService {
       connectHeaders: {
         Authorization: `Bearer ${this.authService.AccessToken}`,
       },
-      onConnect: (frame) => {
-        console.log(frame);
+      onConnect: () => {
         client.subscribe('/user/queue/notification', (message: any) => {
           this.notificationSubject.next(JSON.parse(message.body));
         });

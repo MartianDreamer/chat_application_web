@@ -1,16 +1,22 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { FriendRelationship } from '../model/friend';
-import { AppNotification, ONLINE_STATUS_CHANGE } from '../model/notification';
+import { FriendRelationship, FriendRequest } from '../model/friend';
+import {
+  AppNotification,
+  FRIEND_REQUEST,
+  ONLINE_STATUS_CHANGE,
+} from '../model/notification';
 import { User } from '../model/user';
 import { NotificationService } from './notification.service';
 
 @Injectable()
 export class FriendService {
   private friendList: Array<FriendRelationship> = [];
-  private friendRequestFromMe: Array<FriendRelationship> = [];
-  private friendRequestToMe: Array<FriendRelationship> = [];
+  private friendRequestFromMe: Array<FriendRequest> = [];
+  private friendRequestToMe: Array<FriendRequest> = [];
   private readonly size = 30;
   private friendPage = 0;
   private fromMePage = 0;
@@ -29,17 +35,20 @@ export class FriendService {
 
   constructor(
     private httpClient: HttpClient,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private router: Router
   ) {
     this.loadMoreFriend();
     this.loadMoreFromMeRequest();
     this.loadMoreToMeRequest();
   }
 
-  subscribe(): void {
-    this.notificationService.FriendRelationshipObservable.subscribe((not) => {
-      this.handleNotification(not);
-    });
+  subscribe(): Subscription {
+    return this.notificationService.FriendRelationshipObservable.subscribe(
+      (not) => {
+        this.handleNotification(not);
+      }
+    );
   }
 
   loadAvatar(id: string) {
@@ -72,9 +81,7 @@ export class FriendService {
         params,
       })
       .subscribe((res: any) => {
-        this.friendRequestFromMe.push(
-          ...res.content.map(this.mapRequestToRelationship)
-        );
+        this.friendRequestFromMe.push(...res.content);
       });
     this.fromMePage++;
   }
@@ -89,9 +96,7 @@ export class FriendService {
         params,
       })
       .subscribe((res: any) => {
-        this.friendRequestToMe.push(
-          ...res.content.map(this.mapRequestToRelationship)
-        );
+        this.friendRequestToMe.push(...res.content);
       });
     this.toMePage++;
   }
@@ -111,25 +116,25 @@ export class FriendService {
     return !!this.friendList.find((e) => e.friend.id === id);
   }
 
-  addFriend(friend: User, callback) {
+  addFriend(user: User, callback) {
     this.httpClient
       .put(
-        `${environment.apiUrl}/rest/relationships/friend-requests/${friend.id}`,
+        `${environment.apiUrl}/rest/relationships/friend-requests/${user.id}`,
         {}
       )
       .subscribe({
-        next: (resp: any) => {
+        next: (id: any) => {
           const request = {
-            id: resp,
-            friend: friend,
+            id,
+            user,
             type: 'TO',
-            since: undefined,
           };
           this.friendRequestFromMe.push(request);
           callback(request);
         },
         error: (e) => {
-          alert(e);
+          alert('can not send request to this person');
+          this.router.navigateByUrl('/app/f');
         },
       });
   }
@@ -174,12 +179,6 @@ export class FriendService {
       });
   }
 
-  mapRequestToRelationship(e: any) {
-    e.friend = e.user;
-    delete e.user;
-    return e;
-  }
-
   getFriendByFriendId(id: string) {
     return this.friendList.find((e) => e.friend.id === id);
   }
@@ -205,6 +204,11 @@ export class FriendService {
           ...this.friendList.filter((e) => e != friend),
         ];
       }
+    } else if (notification.type === FRIEND_REQUEST) {
+      this.friendRequestToMe = [
+        notification.content,
+        ...this.friendRequestToMe,
+      ];
     }
   }
 }

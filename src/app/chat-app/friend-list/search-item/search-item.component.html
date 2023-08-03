@@ -1,0 +1,21 @@
+<div class="friend-item-container">
+  <div class="avatar-frame" [class.online]="user?.online">
+    <img
+      [src]="
+        user?.avatar
+          ? 'data:image/jpeg;base64,' + user?.avatar
+          : 'assets/images/Classic_Outfit.png'
+      "
+      alt=""
+      class="avatar"
+    />
+  </div>
+  <div class="username-container">{{ user?.username }}</div>
+  <div class="friend-control">
+    <div
+      class="friend-control-button-add"
+      [class.friend-control-button-add-clicked]="request"
+      (click)="addFriend()"
+    ></div>
+  </div>
+</div>

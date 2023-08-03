@@ -1,0 +1,15 @@
+@import url(../friend-item/friend-item.component.css);
+
+.request-control-button-cancel {
+  width: 16px;
+  height: 16px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/assets/icons/x-circle.svg");
+}
+
+.request-control-button-cancel:hover {
+  background-image: url("/assets/icons/x-circle-fill.svg");
+}

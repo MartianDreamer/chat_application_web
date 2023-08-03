@@ -1,41 +1,4 @@
-
-.avatar {
-  width: 44px;
-}
-
-.avatar-frame {
-  width: 44px;
-  height: 44px;
-  border-radius: 44px;
-  border: solid 1px grey;
-  content-visibility: auto;
-  margin-right: 10px;
-}
-
-.request-item-container {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 5px;
-  margin-bottom: 2px;
-  cursor: default;
-}
-
-.request-item-container:hover {
-  background-color: rgb(200, 200, 200);
-}
-
-.username-container {
-  font-size: larger;
-  font-weight: 500;
-  font-family: unset;
-}
-
-.request-control {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-}
+@import url(../friend-item/friend-item.component.css);
 
 .request-control-button-accept {
   width: 16px;
@@ -51,7 +14,6 @@
   background-image: url("/assets/icons/check-circle-fill.svg");
 }
 
-
 .request-control-button-reject {
   width: 16px;
   height: 16px;
@@ -64,8 +26,4 @@
 
 .request-control-button-reject:hover {
   background-image: url("/assets/icons/x-circle-fill.svg");
-}
-
-.online {
-  border: solid 3px rgb(100, 220, 100) !important;
 }
