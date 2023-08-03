@@ -21,6 +21,7 @@ export class FriendListComponent implements OnDestroy {
     if (e.target.value === '') {
       this.router.navigateByUrl('/app/f');
       this.mode = 'friend';
+      return;
     }
     this.router.navigateByUrl(`/app/f/s/${e.target.value}`);
     this.mode = 'search';
