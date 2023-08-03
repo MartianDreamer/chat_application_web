@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FriendRelationship } from '../model/friend';
 import { FriendService } from '../service/friend.service';
 
@@ -7,7 +7,7 @@ import { FriendService } from '../service/friend.service';
   templateUrl: './friend-list.component.html',
   styleUrls: ['./friend-list.component.css'],
 })
-export class FriendListComponent {
+export class FriendListComponent implements OnInit {
   get FriendList() {
     return this.friendService.FriendList;
   }
@@ -23,6 +23,10 @@ export class FriendListComponent {
   searchResult: FriendRelationship | undefined;
   mode: 'friend' | 'request' | 'search' = 'friend';
   constructor(private friendService: FriendService) {}
+
+  ngOnInit(): void {
+    this.friendService.subscribe();
+  }
 
   scrollEnd(e: any) {
     if (e.target.offsetHeight + e.target.scrollTop >= e.target.scrollHeight) {

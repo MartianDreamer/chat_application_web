@@ -2,9 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { FriendRelationship } from '../model/friend';
+import { AppNotification, ONLINE_STATUS_CHANGE } from '../model/notification';
 import { User } from '../model/user';
 import { NotificationService } from './notification.service';
-import { AppNotification, ONLINE_STATUS_CHANGE } from '../model/notification';
 
 @Injectable()
 export class FriendService {
@@ -34,9 +34,12 @@ export class FriendService {
     this.loadMoreFriend();
     this.loadMoreFromMeRequest();
     this.loadMoreToMeRequest();
-    this.notificationService.FriendRelationshipObservable.subscribe(
-      this.handleNotification
-    );
+  }
+
+  subscribe(): void {
+    this.notificationService.FriendRelationshipObservable.subscribe((not) => {
+      this.handleNotification(not);
+    });
   }
 
   loadAvatar(id: string) {

@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Client, Stomp } from '@stomp/stompjs';
+import { Client } from '@stomp/stompjs';
 import { Subject } from 'rxjs';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { environment } from 'src/environments/environment';
 import { AppNotification } from '../model/notification';
+import * as SockJS from 'sockjs-client';
 
 @Injectable()
 export class WebsocketConnectService {
   private notificationSubject = new Subject<AppNotification>();
   constructor(private authService: AuthenticationService) {
     const client = new Client({
-      brokerURL: environment.wsUrl,
+      webSocketFactory: () => new SockJS(environment.wsUrl),
       connectHeaders: {
         Authorization: `Bearer ${this.authService.AccessToken}`,
       },
       onConnect: (frame) => {
         console.log(frame);
         client.subscribe('/user/queue/notification', (message: any) => {
-          console.log(message);
-          this.notificationSubject.next(message);
+          this.notificationSubject.next(JSON.parse(message.body));
         });
       },
       onStompError: (frame) => {
