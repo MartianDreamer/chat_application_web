@@ -7,7 +7,6 @@ import { User, UserEdit } from '../model/user';
 @Injectable()
 export class SelfService {
   private self: User | undefined;
-  private image: string | undefined;
   constructor(private httpClient: HttpClient) {
     this.httpClient
       .get(`${environment.apiUrl}/rest/users?self=true`)
@@ -20,7 +19,9 @@ export class SelfService {
         })
       )
       .subscribe((res: any) => {
-        this.image = res.content;
+        if (this.self) {
+          this.self.avatar = res.content;
+        }
       });
   }
 
@@ -30,14 +31,6 @@ export class SelfService {
 
   get Self(): User | undefined {
     return this.self;
-  }
-
-  set Image(image: string) {
-    this.image = image;
-  }
-
-  get Image(): string | undefined {
-    return this.image;
   }
 
   updateSelfInformation(user: UserEdit) {

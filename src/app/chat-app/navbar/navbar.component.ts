@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { concatMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { SelfService } from '../service/self.service';
+import { FriendService } from '../service/friend.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,10 +12,10 @@ import { SelfService } from '../service/self.service';
 })
 export class NavbarComponent implements OnInit {
   get newConversationNotification() {
-    return true;
+    return false;
   }
   get newFriendNotification() {
-    return true;
+    return this.friendService.ToMeRequest.length > 0;
   }
 
   get Self() {
@@ -22,7 +23,7 @@ export class NavbarComponent implements OnInit {
   }
 
   get Image() {
-    return this.selfService.Image;
+    return this.selfService.Self?.avatar;
   }
 
   openAvatarClickMenu: boolean | undefined;
@@ -30,12 +31,11 @@ export class NavbarComponent implements OnInit {
   openMyAccount: boolean | undefined;
 
   constructor(
-    private httpClient: HttpClient,
-    private selfService: SelfService
+    private selfService: SelfService,
+    private friendService: FriendService
   ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onAvatarClick(e: MouseEvent) {
     this.openAvatarClickMenu = true;

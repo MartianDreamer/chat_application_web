@@ -1,7 +1,8 @@
 import { User } from './user';
 
 export interface FriendRelationship {
-  id: string;
-  since: string;
+  id: string | undefined;
+  since: string | undefined;
   friend: User;
+  type: string | undefined;
 }

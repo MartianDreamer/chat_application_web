@@ -18,6 +18,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FriendService } from './service/friend.service';
 import { NotificationService } from './service/notification.service';
 import { SelfService } from './service/self.service';
+import { DraggableComponent } from './draggable.component';
+import { ToMeRequestItemComponent } from './friend-list/to-me-request-item/to-me-request-item.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { SelfService } from './service/self.service';
     MyAccountComponent,
     AutoFocusDirective,
     ModalComponent,
+    DraggableComponent,
+    ToMeRequestItemComponent
   ],
   imports: [CommonModule, ChatAppRoutingModule, FormsModule],
   providers: [

@@ -9,18 +9,14 @@ import {
 import { Observable, combineLatestWith } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { SelfService } from '../service/self.service';
+import { DraggableComponent } from '../draggable.component';
 
 @Component({
   selector: 'app-my-account',
   templateUrl: './my-account.component.html',
   styleUrls: ['./my-account.component.css'],
 })
-export class MyAccountComponent {
-  myAccountStyle = {
-    left: `${window.innerWidth / 2.5}px`,
-    top: `${window.innerHeight / 2.5}px`,
-  };
-  mouseDragStartLocation: any;
+export class MyAccountComponent extends DraggableComponent {
   openUploadForm = false;
   tempAvatar: string | undefined;
   tempAvatarFile: any;
@@ -39,43 +35,22 @@ export class MyAccountComponent {
   constructor(
     private selfService: SelfService,
     private httpClient: HttpClient
-  ) {}
+  ) {
+    super();
+  }
 
   get Self() {
     return this.selfService.Self;
   }
 
   get Image() {
-    return this.selfService.Image;
+    return this.selfService.Self?.avatar;
   }
 
   closeMyAccount(e: Event | undefined = undefined) {
     e?.preventDefault();
     this.closeMyAccountEvent.emit(false);
     this.tempAvatar = undefined;
-  }
-
-  onDragStartMyAccount(e: MouseEvent) {
-    this.mouseDragStartLocation = {
-      left: e.clientX,
-      top: e.clientY,
-    };
-  }
-
-  onDragEndMyAccount(e: MouseEvent) {
-    e.preventDefault();
-    const dragDistance = {
-      left: e.clientX - this.mouseDragStartLocation.left,
-      top: e.clientY - this.mouseDragStartLocation.top,
-    };
-    const oldLeft = Number.parseFloat(
-      this.myAccountStyle.left.replace('px', '')
-    );
-    const oldTop = Number.parseFloat(this.myAccountStyle.top.replace('px', ''));
-    this.myAccountStyle = {
-      left: `${oldLeft + dragDistance.left}px`,
-      top: `${oldTop + dragDistance.top}px`,
-    };
   }
 
   openFileSelection(e: MouseEvent) {
@@ -119,7 +94,6 @@ export class MyAccountComponent {
     const avaObs = this.uploadAvatar();
     obs.pipe(combineLatestWith(avaObs)).subscribe({
       next: () => {
-        if (this.tempAvatar) this.selfService.Image = this.tempAvatar;
         const newSelf = {
           id: this.Self?.id as string,
           username: this.tempUsername as string,
@@ -127,8 +101,10 @@ export class MyAccountComponent {
           phoneNumber: this.tempPhoneNumber as string,
           online: this.Self?.online as boolean,
           lastSeen: this.Self?.lastSeen as string,
+          avatar: undefined,
         };
         this.selfService.Self = newSelf;
+        if (this.tempAvatar) this.selfService.Self.avatar = this.tempAvatar;
         this.closeMyAccount();
       },
       error: () => {

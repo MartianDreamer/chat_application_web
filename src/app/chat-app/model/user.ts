@@ -5,6 +5,7 @@ export interface User {
   phoneNumber: string;
   online: boolean;
   lastSeen: string;
+  avatar: string | undefined;
 }
 
 export interface UserEdit {

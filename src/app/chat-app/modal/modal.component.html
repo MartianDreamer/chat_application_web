@@ -1,1 +1,41 @@
-<p>modal works!</p>
+<div
+  class="modal"
+  style="display: block"
+  tabindex="-1"
+  role="dialog"
+  draggable="true"
+  (dragstart)="onDragStart($event)"
+  (dragend)="onDragEnd($event)"
+>
+  <div class="modal-dialog" role="document" [style]="componentStyle">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ content?.title }}</h5>
+      </div>
+      <div class="modal-body">
+        <p>{{ content?.content }}</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn"
+          [class.btn-danger]="content?.dangerous"
+          [class.btn-success]="!content?.dangerous"
+          (click)="onClickYes()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          class="btn"
+          data-dismiss="modal"
+          [class.btn-success]="content?.dangerous"
+          [class.btn-danger]="!content?.dangerous"
+          (click)="onClickNo()"
+        >
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
