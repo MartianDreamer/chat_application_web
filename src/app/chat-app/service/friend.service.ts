@@ -1,16 +1,12 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { FriendRelationship, FriendRequest } from '../model/friend';
-import {
-  AppNotification,
-  FRIEND_REQUEST,
-  ONLINE_STATUS_CHANGE,
-} from '../model/notification';
-import { User } from '../model/user';
-import { NotificationService } from './notification.service';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {environment} from 'src/environments/environment';
+import {FriendRelationship, FriendRequest} from '../model/friend';
+import {AppNotification, FRIEND_REQUEST, ONLINE_STATUS_CHANGE,} from '../model/notification';
+import {User} from '../model/user';
+import {NotificationService} from './notification.service';
 
 @Injectable()
 export class FriendService {
@@ -21,6 +17,9 @@ export class FriendService {
   private friendPage = 0;
   private fromMePage = 0;
   private toMePage = 0;
+  private maxFriendPage = 1;
+  private maxFromMePage = 1;
+  private maxToMePage = 1;
 
   get FriendList() {
     return this.friendList;
@@ -55,23 +54,32 @@ export class FriendService {
     return this.httpClient.get(`${environment.apiUrl}/rest/users/avatar/${id}`);
   }
 
-  loadMoreFriend() {
-    const params = new HttpParams()
-      .set('size', this.size)
-      .set('page', this.friendPage);
-    this.httpClient
-      .get(`${environment.apiUrl}/rest/relationships/friends`, { params })
-      .subscribe((res: any) => this.friendList.push(...res.content));
-    this.friendPage++;
-  }
-
   searchByUsername(username: string) {
     return this.httpClient.get(
       `${environment.apiUrl}/rest/users?username=${username}`
     );
   }
 
+  loadMoreFriend() {
+    if (this.friendPage === this.maxFriendPage) {
+      return;
+    }
+    const params = new HttpParams()
+      .set('size', this.size)
+      .set('page', this.friendPage);
+    this.httpClient
+      .get(`${environment.apiUrl}/rest/relationships/friends`, { params })
+      .subscribe((res: any) => {
+        this.friendList.push(...res.content);
+        this.maxFriendPage = res.totalPages;
+      });
+    this.friendPage++;
+  }
+
   loadMoreFromMeRequest() {
+    if (this.fromMePage === this.maxFromMePage) {
+      return;
+    }
     const params = new HttpParams()
       .set('size', this.size)
       .set('page', this.fromMePage)
@@ -82,11 +90,15 @@ export class FriendService {
       })
       .subscribe((res: any) => {
         this.friendRequestFromMe.push(...res.content);
+        this.maxFromMePage = res.totalPages;
       });
     this.fromMePage++;
   }
 
   loadMoreToMeRequest() {
+    if (this.toMePage === this.maxToMePage) {
+      return;
+    }
     const params = new HttpParams()
       .set('size', this.size)
       .set('page', this.toMePage)
@@ -97,6 +109,7 @@ export class FriendService {
       })
       .subscribe((res: any) => {
         this.friendRequestToMe.push(...res.content);
+        this.maxToMePage = res.totalPages;
       });
     this.toMePage++;
   }
@@ -107,7 +120,7 @@ export class FriendService {
     }
     this.httpClient
       .delete(`${environment.apiUrl}/rest/relationships/friends/${id}`)
-      .subscribe((res) => {
+      .subscribe(() => {
         this.friendList = this.friendList.filter((e) => e.id !== id);
       });
   }
@@ -132,7 +145,7 @@ export class FriendService {
           this.friendRequestFromMe.push(request);
           callback(request);
         },
-        error: (e) => {
+        error: () => {
           alert('can not send request to this person');
           this.router.navigateByUrl('/app/f');
         },
@@ -145,7 +158,7 @@ export class FriendService {
         `${environment.apiUrl}/rest/relationships/friend-requests/${id}`,
         {}
       )
-      .subscribe((resp: any) => {
+      .subscribe(() => {
         this.friendRequestFromMe = this.friendRequestFromMe.filter(
           (e) => e.id !== id
         );

@@ -1,1 +1,7 @@
-<p>new-conversation-friend-list works!</p>
+<ul class="overflow-auto friend-list" (scroll)="scrollEnd($event)">
+  <li *ngFor="let item of Friends">
+    <app-new-conversation-friend-item
+      [friend]="item"
+    ></app-new-conversation-friend-item>
+  </li>
+</ul>

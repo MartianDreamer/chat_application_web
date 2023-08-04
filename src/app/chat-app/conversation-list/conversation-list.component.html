@@ -1,17 +1,32 @@
 <div class="conversation-list-container">
-  <div class="p-2 input-group mb-1">
-    <input
-      type="text"
-      class="form-control"
-      aria-label="Sizing example input"
-      aria-describedby="inputGroup-sizing-default"
-      placeholder="Search"
-    />
+  <div class="p-2 mb-1 d-flex">
+    <div class="input-group me-2">
+      <input
+        type="text"
+        class="form-control"
+        aria-label="Sizing example input"
+        aria-describedby="inputGroup-sizing-default"
+        placeholder="Conversation name"
+        [disabled]="mode === 'CONVERSATION'"
+        [(ngModel)]="newConversationName"
+      />
+      <button class="btn btn-light" [disabled]="mode === 'CONVERSATION'" (click)="createConversation()">
+        <img src="/assets/icons/send.svg" alt="" srcset="" />
+      </button>
+    </div>
     <div
       class="btn btn-light border border-secondary-subtle"
       (click)="newConversation()"
     >
-      <img src="/assets/icons/pencil-square.svg" alt="" srcset="" />
+      <img
+        [src]="
+          mode === 'CONVERSATION'
+            ? '/assets/icons/pencil-square.svg'
+            : '/assets/icons/envelope-paper.svg'
+        "
+        alt=""
+        srcset=""
+      />
     </div>
   </div>
   <router-outlet></router-outlet>

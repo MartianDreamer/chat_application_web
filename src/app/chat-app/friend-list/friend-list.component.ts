@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FriendService } from '../service/friend.service';
@@ -8,15 +8,27 @@ import { FriendService } from '../service/friend.service';
   templateUrl: './friend-list.component.html',
   styleUrls: ['./friend-list.component.css'],
 })
-export class FriendListComponent implements OnDestroy {
+export class FriendListComponent implements OnDestroy, OnInit {
   private friendSubcription: Subscription;
   mode: 'friend' | 'request' | 'search' = 'friend';
   constructor(protected friendService: FriendService, private router: Router) {
     this.friendSubcription = this.friendService.subscribe();
   }
+
+  ngOnInit(): void {
+    if (this.router.url.endsWith('f')) {
+      this.mode = 'friend';
+    } else if (this.router.url.endsWith('/r')) {
+      this.mode = 'request';
+    } else {
+      this.mode = 'search';
+    }
+  }
+
   ngOnDestroy(): void {
     this.friendSubcription.unsubscribe();
   }
+
   onEnter(e: any) {
     if (e.target.value === '') {
       this.router.navigateByUrl('/app/f');

@@ -1,17 +1,21 @@
-<div class="friend-item-container">
-  <div class="avatar-frame" [class.online]="friendship?.friend?.online">
+<div class="friend-item-container" [class.friend-item-container-select]="Added">
+  <div class="avatar-frame" [class.online]="friend?.online">
     <img
       [src]="
-        friendship?.friend?.avatar
-          ? 'data:image/jpeg;base64,' + friendship?.friend?.avatar
+        friend?.avatar
+          ? 'data:image/jpeg;base64,' + friend?.avatar
           : 'assets/images/Classic_Outfit.png'
       "
       alt=""
       class="avatar"
     />
   </div>
-  <div class="username-container">{{ friendship?.friend?.username }}</div>
+  <div class="username-container">{{ friend?.username }}</div>
   <div class="friend-control">
-    <div class="friend-control-button-unfriend" (click)="addToConversation()"></div>
+    <div
+      class="friend-control-button-add"
+      [class.friend-control-button-add-clicked]="Added"
+      (click)="addToConversation()"
+    ></div>
   </div>
 </div>
