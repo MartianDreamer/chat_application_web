@@ -193,16 +193,13 @@ export class FriendService {
 
   handleNotification(notification: AppNotification) {
     if (notification.type === ONLINE_STATUS_CHANGE) {
-      const friend = this.friendList.find(
-        (e) => e.friend.id === notification.content.id
+      this.friendList = this.friendList.filter(
+        (e) => e.id !== notification.content.id
       );
-      if (friend) {
-        friend.friend.online = notification.content.online;
-        friend.friend.lastSeen = notification.content.lastSeen;
-        this.friendList = [
-          friend,
-          ...this.friendList.filter((e) => e != friend),
-        ];
+      if (notification.content.friend.online) {
+        this.friendList = [notification.content, ...this.friendList];
+      } else {
+        this.friendList = [...this.friendList, notification.content];
       }
     } else if (notification.type === FRIEND_REQUEST) {
       this.friendRequestToMe = [
