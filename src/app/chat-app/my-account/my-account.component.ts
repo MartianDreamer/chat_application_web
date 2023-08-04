@@ -9,14 +9,13 @@ import {
 import { Observable, combineLatestWith } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { SelfService } from '../service/self.service';
-import { DraggableComponent } from '../draggable.component';
 
 @Component({
   selector: 'app-my-account',
   templateUrl: './my-account.component.html',
   styleUrls: ['./my-account.component.css'],
 })
-export class MyAccountComponent extends DraggableComponent {
+export class MyAccountComponent {
   openUploadForm = false;
   tempAvatar: string | undefined;
   tempAvatarFile: any;
@@ -36,7 +35,6 @@ export class MyAccountComponent extends DraggableComponent {
     private selfService: SelfService,
     private httpClient: HttpClient
   ) {
-    super();
   }
 
   get Self() {

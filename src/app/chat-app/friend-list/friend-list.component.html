@@ -1,5 +1,14 @@
 <div class="friend-list-container">
-  <div class="input-group mb-1">
+  <div class="p-2 input-group mb-1">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Username"
+      aria-label="Username"
+      aria-describedby="basic-addon1"
+      (keyup.enter)="onEnter($event)"
+      (keyup.backspace)="onBackspace($event)"
+    />
     <div
       class="input-group-prepend notification-icon-frame"
       (click)="showRequest()"
@@ -17,15 +26,6 @@
           style="width: 24px"
       /></span>
     </div>
-    <input
-      type="text"
-      class="form-control"
-      placeholder="Username"
-      aria-label="Username"
-      aria-describedby="basic-addon1"
-      (keyup.enter)="onEnter($event)"
-      (keyup.backspace)="onBackspace($event)"
-    />
   </div>
   <router-outlet></router-outlet>
 </div>

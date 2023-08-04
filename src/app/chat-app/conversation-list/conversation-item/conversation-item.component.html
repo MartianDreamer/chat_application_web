@@ -1,0 +1,30 @@
+<div class="conversation-item-container conversation-item-container-clicked">
+  <div class="member-avatars">
+    <img
+      *ngFor="let member of conversation?.members | slice : 0 : 8"
+      class="avatar"
+      [src]="
+        member.avatar
+          ? 'data:image/jpeg;base64,' + member.avatar
+          : '/assets/images/Classic_Outfit.png'
+      "
+      alt=""
+      srcset=""
+    />
+  </div>
+  <div class="content-container">
+    <p class="conversation-title">{{ conversation?.name }}</p>
+    <div class="latest-message-container">
+      <div class="latest-message">
+        {{
+          lastContent
+            ? lastContent.type == MESSAGE
+              ? lastContent.object.content
+              : "New attachments"
+            : "New conversation"
+        }}
+      </div>
+      <p class="message-timestamp">{{ lastContent?.object?.timestamp }}</p>
+    </div>
+  </div>
+</div>

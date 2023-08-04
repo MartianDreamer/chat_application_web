@@ -1,3 +1,5 @@
+@import url(../friend-list/friend-list.component.css);
+
 .conversation-list-container {
   height: 98.5vh;
   width: 400px;

@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ConversationListComponent } from './conversation-list/conversation-list.component';
-import { FriendListComponent } from './friend-list/friend-list.component';
 import { ChatAppComponent } from './chat-app.component';
+import { ConversationListComponent } from './conversation-list/conversation-list.component';
+import { NewConversationFriendListComponent } from './conversation-list/new-conversation-friend-list/new-conversation-friend-list.component';
+import { FriendListComponent } from './friend-list/friend-list.component';
 import { FriendshipListComponent } from './friend-list/friendship-list/friendship-list.component';
-import { SearchListComponent } from './friend-list/search-list/search-list.component';
 import { RequestListComponent } from './friend-list/request-list/request-list.component';
+import { SearchListComponent } from './friend-list/search-list/search-list.component';
+import { MyConversationsComponent } from './conversation-list/my-conversations/my-conversations.component';
 
 const routes: Routes = [
   {
@@ -15,11 +17,21 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: '/app/c',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'c',
         component: ConversationListComponent,
+        children: [
+          {
+            path: '',
+            component: MyConversationsComponent,
+          },
+          {
+            path: 'n',
+            component: NewConversationFriendListComponent,
+          },
+        ],
       },
       {
         path: 'f',
@@ -27,24 +39,24 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            component: FriendshipListComponent
+            component: FriendshipListComponent,
           },
           {
             path: 's/:username',
-            component: SearchListComponent
+            component: SearchListComponent,
           },
           {
             path: 'r',
-            component: RequestListComponent
-          }
-        ]
-      }
-    ]
-  }
+            component: RequestListComponent,
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ChatAppRoutingModule { }
+export class ChatAppRoutingModule {}

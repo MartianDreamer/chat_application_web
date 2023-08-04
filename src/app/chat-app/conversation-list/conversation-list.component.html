@@ -1,1 +1,18 @@
-<div class="conversation-list-container"></div>
+<div class="conversation-list-container">
+  <div class="p-2 input-group mb-1">
+    <input
+      type="text"
+      class="form-control"
+      aria-label="Sizing example input"
+      aria-describedby="inputGroup-sizing-default"
+      placeholder="Search"
+    />
+    <div
+      class="btn btn-light border border-secondary-subtle"
+      (click)="newConversation()"
+    >
+      <img src="/assets/icons/pencil-square.svg" alt="" srcset="" />
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>

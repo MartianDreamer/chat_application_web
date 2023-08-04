@@ -1,10 +1,8 @@
 <form>
   <div
+    appDraggableComponent
     class="my-account"
     [class.failed]="error"
-    [style]="componentStyle"
-    (dragend)="onDragEnd($event)"
-    (dragstart)="onDragStart($event)"
     draggable="true"
   >
     <div class="profile-picture-frame" (click)="openFileSelection($event)">

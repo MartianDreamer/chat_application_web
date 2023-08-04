@@ -25,6 +25,7 @@ export class FriendItemComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     if (!this.friendship) return;
+    if (this.friendship?.friend.avatar) return;
     this.friendService
       .loadAvatar(this.friendship?.friend.id as string)
       .subscribe((res: any) => {

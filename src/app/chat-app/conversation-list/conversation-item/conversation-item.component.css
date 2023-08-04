@@ -1,0 +1,44 @@
+.conversation-item-container {
+  padding: 10px;
+}
+
+.conversation-item-container:hover {
+  border-radius: 10px;
+  border: solid 1px rgb(235, 235, 235);
+}
+
+.conversation-item-container-clicked {
+  background-color: rgb(235, 235, 235);
+  border-radius: 10px;
+}
+
+.conversation-title {
+  font-weight: 500;
+  margin-bottom: 2px;
+  font-size: large;
+}
+
+.member-avatars {
+  height: 40px;
+  content-visibility: auto;
+  margin-bottom: 5px;
+}
+
+.avatar {
+  height: 40px;
+  width: 40px;
+  margin-right: 2px;
+}
+
+.latest-message-container {
+  display: flex;
+  justify-content: space-between;
+  font-size: small;
+}
+
+.latest-message {
+  white-space: nowrap;
+  width: 80%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

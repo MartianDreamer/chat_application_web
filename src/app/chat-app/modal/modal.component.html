@@ -1,24 +1,25 @@
 <div
-  class="modal"
+  class="bg-light-subtle pe-0 ps-0 pt-2 border border border border-dark-subtle rounded-3"
   style="display: block"
   tabindex="-1"
   role="dialog"
   draggable="true"
-  (dragstart)="onDragStart($event)"
-  (dragend)="onDragEnd($event)"
+  appDraggableComponent
 >
-  <div class="modal-dialog" role="document" [style]="componentStyle">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header pb-2 ps-3 border-bottom border-dark-subtle">
         <h5 class="modal-title">{{ content?.title }}</h5>
       </div>
-      <div class="modal-body">
+      <div class="bg-secondary-subtle pt-3 pb-4">
+      <div class="modal-body ps-3 pe-3 mb-2">
         <p>{{ content?.content }}</p>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer pe-4">
         <button
           type="button"
-          class="btn"
+          class="btn me-4"
+          style="width: 100px;"
           [class.btn-danger]="content?.dangerous"
           [class.btn-success]="!content?.dangerous"
           (click)="onClickYes()"
@@ -29,12 +30,14 @@
           type="button"
           class="btn"
           data-dismiss="modal"
+          style="width: 100px;"
           [class.btn-success]="content?.dangerous"
           [class.btn-danger]="!content?.dangerous"
           (click)="onClickNo()"
         >
           No
         </button>
+      </div>
       </div>
     </div>
   </div>

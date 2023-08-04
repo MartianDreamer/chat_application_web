@@ -8,7 +8,7 @@ export class AutoFocusDirective implements OnInit {
 
   ngOnInit(): void {
     window.setTimeout(() => {
-      this.element.nativeElement.focus(); //For SSR (server side rendering) this is not safe. Use: https://github.com/angular/angular/issues/15008#issuecomment-285141070)
+      this.element.nativeElement.focus(); 
     });
   }
 }
