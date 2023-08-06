@@ -1,19 +1,25 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
+import {Conversation} from '../model/conversation';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConversationService {
-  addedUsers: Array<String> = [];
-  conversations: Array<String> = [];
+  addedUsers: Array<string> = [];
+  private _conversations: Array<Conversation> = [];
   page = 0;
   size = 20;
   totalPages = 1;
 
   constructor(private httpClient: HttpClient) {
     this.loadMoreConversation();
+  }
+
+
+  get Conversations(): Array<Conversation> {
+    return this._conversations;
   }
 
   loadMoreConversation() {
@@ -26,7 +32,7 @@ export class ConversationService {
     this.httpClient.get(`${environment.apiUrl}/rest/conversations`, {
       params
     }).subscribe((res: any) => {
-      this.conversations.push(...res.content);
+      this._conversations.push(...res.content);
       this.totalPages = res.totalPages;
     });
   }
@@ -45,7 +51,7 @@ export class ConversationService {
       members: this.addedUsers
     }).subscribe({
         next: (res: any) => {
-          this.conversations = [res, ...this.conversations];
+          this._conversations = [res, ...this._conversations];
           //TODO navigate to the just created conversation
         },
         error: (e: any) => {

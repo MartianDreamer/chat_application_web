@@ -4,7 +4,7 @@
 
 .conversation-item-container:hover {
   border-radius: 10px;
-  border: solid 1px rgb(235, 235, 235);
+  border: solid 1px rgb(220, 220, 220);
 }
 
 .conversation-item-container-clicked {
@@ -25,8 +25,8 @@
 }
 
 .avatar {
-  height: 40px;
-  width: 40px;
+  height: 32px;
+  width: 32px;
   margin-right: 2px;
 }
 
@@ -38,7 +38,7 @@
 
 .latest-message {
   white-space: nowrap;
-  width: 80%;
+  width: 60%;
   overflow: hidden;
   text-overflow: ellipsis;
 }

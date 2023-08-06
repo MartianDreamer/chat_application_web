@@ -38,5 +38,6 @@ export class ConversationListComponent implements OnInit {
     if (this.newConversationName !== '') {
       this.conversationService.createConversation(this.newConversationName);
     }
+    this.newConversationName = '';
   }
 }

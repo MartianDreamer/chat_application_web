@@ -1,4 +1,4 @@
-<div class="conversation-item-container conversation-item-container-clicked">
+<div class="conversation-item-container">
   <div class="member-avatars">
     <img
       *ngFor="let member of conversation?.members | slice : 0 : 8"
@@ -17,14 +17,15 @@
     <div class="latest-message-container">
       <div class="latest-message">
         {{
-          lastContent
-            ? lastContent.type == MESSAGE
-              ? lastContent.object.content
-              : "New attachments"
-            : "New conversation"
+        lastContent
+          ? lastContent.type == MESSAGE
+            ? lastContent.object.content
+            : "New attachments"
+          : "New conversation"
         }}
       </div>
-      <p class="message-timestamp">{{ lastContent?.object?.timestamp }}</p>
+      <p
+        class="message-timestamp">{{ (lastContent ? lastContent.object.timestamp : conversation?.modifiedAt) | date: 'short' }} </p>
     </div>
   </div>
 </div>

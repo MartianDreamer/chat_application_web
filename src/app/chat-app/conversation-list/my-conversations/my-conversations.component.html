@@ -1,5 +1,5 @@
 <ul class="overflow-auto friend-list">
-  <li>
-    <app-conversation-item></app-conversation-item>
+  <li *ngFor="let conversation of conversationService.Conversations">
+    <app-conversation-item [conversation]="conversation"></app-conversation-item>
   </li>
 </ul>
