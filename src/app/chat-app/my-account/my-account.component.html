@@ -5,7 +5,7 @@
     [class.failed]="error"
     draggable="true"
   >
-    <div class="profile-picture-frame" (click)="openFileSelection($event)">
+    <div class="profile-picture-frame" (click)="openFileSelection()">
       <img
         src="{{
           tempAvatar
@@ -18,7 +18,7 @@
         class="profile-picture"
       />
     </div>
-    <div class="user-inf-item" *ngIf="!isEdittingUsername">
+    <div class="user-inf-item" *ngIf="!isEditingUsername">
       <span>Username:</span>
       <span>
         {{ tempUsername }}
@@ -33,50 +33,47 @@
       type="text"
       name="username"
       class="form-control custom-form-control"
-      [value]="tempUsername"
-      (input)="tempUsername = $event.target.value"
+      [(ngModel)]="tempUsername"
       [placeholder]="Self?.username"
       (focusout)="editUsername()"
-      *ngIf="isEdittingUsername"
+      *ngIf="isEditingUsername"
       appAutoFocus
     />
-    <div class="user-inf-item" *ngIf="!isEdittingEmail">
+    <div class="user-inf-item" *ngIf="!isEditingEmail">
       <span> Email: </span>
       <span>
         {{ tempEmail }}
-        <img src="/assets/icons/pencil-fill.svg" (click)="editEmail()" alt="" />
+        <img src="/assets/icons/pencil-fill.svg" (click)="editEmail()" alt=""/>
       </span>
     </div>
     <input
       type="text"
       name="email"
       class="form-control custom-form-control"
-      [value]="tempEmail"
-      (input)="tempEmail = $event.target.value"
+      [(ngModel)]="tempEmail"
       [placeholder]="Self?.email"
       (focusout)="editEmail()"
-      *ngIf="isEdittingEmail"
+      *ngIf="isEditingEmail"
       appAutoFocus
     />
-    <div class="user-inf-item" *ngIf="!isEdittingPhone">
+    <div class="user-inf-item" *ngIf="!isEditingPhone">
       <span> Phone number: </span>
       <span>
         {{ tempPhoneNumber }}
-        <img src="/assets/icons/pencil-fill.svg" (click)="editPhone()" alt="" />
+        <img src="/assets/icons/pencil-fill.svg" (click)="editPhone()" alt=""/>
       </span>
     </div>
     <input
       type="text"
       name="phoneNumber"
       class="form-control custom-form-control"
-      [value]="tempPhoneNumber"
-      (input)="tempPhoneNumber = $event.target.value"
+      [(ngModel)]="tempPhoneNumber"
       [placeholder]="Self?.phoneNumber"
       (focusout)="editPhone()"
-      *ngIf="isEdittingPhone"
+      *ngIf="isEditingPhone"
       appAutoFocus
     />
-    <div class="user-inf-item" *ngIf="!isEdittingPassword">
+    <div class="user-inf-item" *ngIf="!isEditingPassword">
       <span> Password: </span>
       <span>
         ****
@@ -94,7 +91,7 @@
       (input)="tempPassword = $event.target.value"
       placeholder="Password"
       (focusout)="editPassword()"
-      *ngIf="isEdittingPassword"
+      *ngIf="isEditingPassword"
       appAutoFocus
     />
     <div>

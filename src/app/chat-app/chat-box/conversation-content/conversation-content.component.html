@@ -1,1 +1,8 @@
-<p>conversation-content works!</p>
+<div class="content-container">
+  <div class="conversation-settings">
+    <img src="/assets/icons/gear-fill.svg" alt="" style="width: 20px; height: 20px">
+  </div>
+  <div style="margin-top: 30px">
+    <p *ngFor="let content of contents"> {{content | json}} </p>
+  </div>
+</div>

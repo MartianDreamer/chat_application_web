@@ -22,7 +22,7 @@ export class ConversationListComponent implements OnInit, OnDestroy {
     this.router.events.subscribe((e: any) => {
       if (e instanceof NavigationEnd) {
         const id = e.url.substring(e.url.lastIndexOf('/') + 1);
-        if (id.length === 36) {
+        if (id.length === 36 && e.url.startsWith('/app/c')) {
           this.conversationService.currentConversation = id;
         }
       }

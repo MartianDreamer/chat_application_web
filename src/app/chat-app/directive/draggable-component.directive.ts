@@ -35,7 +35,8 @@ export class DraggableComponentDirective implements OnInit, OnDestroy {
   constructor(private element: ElementRef) {}
 
   ngOnInit(): void {
-    this.element.nativeElement.style.position = 'absolute';
+    this.element.nativeElement.style.position = 'fixed';
+    this.element.nativeElement.style['z-index'] = 1000;
     this.element.nativeElement.style.top = '50%';
     this.element.nativeElement.style.left = '50%';
     this.element.nativeElement.style.transform = 'translate(-50%, -50%)';

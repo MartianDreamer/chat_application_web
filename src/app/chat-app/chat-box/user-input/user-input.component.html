@@ -1,10 +1,11 @@
 <div class="user-input-container">
   <textarea name="" id="" rows="1" class="user-input" (input)="updateRows($event)" (keydown.enter)="enter($event)"
             [(ngModel)]="messageContent" #inputMessage></textarea>
-  <div class="image-input">
+  <div class="image-input" (click)="selectAttachment()">
     <img style="width: 20px; height: 20px" src="/assets/icons/image.svg" alt="" srcset="">
   </div>
-  <div class="image-input">
+  <div class="image-input" (click)="enter($event)">
     <img style="width: 20px; height: 20px" src="/assets/icons/send.svg" alt="" srcset="">
   </div>
 </div>
+<input type="file" name="file" (change)="sendAttachments($event)" multiple hidden #inputImage>

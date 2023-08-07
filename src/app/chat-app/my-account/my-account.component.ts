@@ -6,7 +6,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { Observable, combineLatestWith } from 'rxjs';
+import { combineLatestWith, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { SelfService } from '../service/self.service';
 
@@ -19,10 +19,10 @@ export class MyAccountComponent {
   openUploadForm = false;
   tempAvatar: string | undefined;
   tempAvatarFile: any;
-  isEdittingUsername = false;
-  isEdittingEmail = false;
-  isEdittingPhone = false;
-  isEdittingPassword = false;
+  isEditingUsername = false;
+  isEditingEmail = false;
+  isEditingPhone = false;
+  isEditingPassword = false;
   tempUsername = this.selfService.Self?.username;
   tempEmail = this.selfService.Self?.email;
   tempPhoneNumber = this.selfService.Self?.phoneNumber;
@@ -33,9 +33,8 @@ export class MyAccountComponent {
 
   constructor(
     private selfService: SelfService,
-    private httpClient: HttpClient
-  ) {
-  }
+    private httpClient: HttpClient,
+  ) {}
 
   get Self() {
     return this.selfService.Self;
@@ -51,7 +50,7 @@ export class MyAccountComponent {
     this.tempAvatar = undefined;
   }
 
-  openFileSelection(e: MouseEvent) {
+  openFileSelection() {
     this.avatarInput?.nativeElement.click();
   }
 
@@ -78,7 +77,7 @@ export class MyAccountComponent {
     form.append('file', this.tempAvatarFile);
     return this.httpClient.post(
       `${environment.apiUrl}/rest/users/avatar`,
-      form
+      form,
     );
   }
 
@@ -92,7 +91,7 @@ export class MyAccountComponent {
     const avaObs = this.uploadAvatar();
     obs.pipe(combineLatestWith(avaObs)).subscribe({
       next: () => {
-        const newSelf = {
+        this.selfService.Self = {
           id: this.Self?.id as string,
           username: this.tempUsername as string,
           email: this.tempEmail as string,
@@ -101,7 +100,6 @@ export class MyAccountComponent {
           lastSeen: this.Self?.lastSeen as string,
           avatar: undefined,
         };
-        this.selfService.Self = newSelf;
         if (this.tempAvatar) this.selfService.Self.avatar = this.tempAvatar;
         this.closeMyAccount();
       },
@@ -112,16 +110,16 @@ export class MyAccountComponent {
   }
 
   editUsername() {
-    this.isEdittingUsername = !this.isEdittingUsername;
+    this.isEditingUsername = !this.isEditingUsername;
   }
   editEmail() {
-    this.isEdittingEmail = !this.isEdittingEmail;
+    this.isEditingEmail = !this.isEditingEmail;
   }
   editPhone() {
-    this.isEdittingPhone = !this.isEdittingPhone;
+    this.isEditingPhone = !this.isEditingPhone;
   }
 
   editPassword() {
-    this.isEdittingPassword = !this.isEdittingPassword;
+    this.isEditingPassword = !this.isEditingPassword;
   }
 }

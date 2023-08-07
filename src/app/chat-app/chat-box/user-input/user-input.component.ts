@@ -1,7 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { WebsocketConnectService } from '../../service/websocket-connect.service';
 import { environment } from '../../../../environments/environment';
+import { ConversationService } from '../../service/conversation.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-input',
@@ -9,13 +10,14 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./user-input.component.css'],
 })
 export class UserInputComponent implements OnInit {
-  id: string | undefined;
   messageContent = '';
   @ViewChild('inputMessage') inputMessage: ElementRef | undefined;
+  @ViewChild('inputImage') inputImage: ElementRef | undefined;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private wsService: WebsocketConnectService,
+    private conversationService: ConversationService,
+    private httpClient: HttpClient,
   ) {}
 
   updateRows(e) {
@@ -29,7 +31,7 @@ export class UserInputComponent implements OnInit {
     this.messageContent = this.messageContent.trim();
     if (this.messageContent !== '') {
       this.wsService.send(
-        `${environment.apiUrl}/app/conversations/${this.id}`,
+        `/app/conversations/${this.conversationService.currentConversation}`,
         this.messageContent,
       );
     }
@@ -37,9 +39,28 @@ export class UserInputComponent implements OnInit {
     if (this.inputMessage) this.inputMessage.nativeElement.rows = 1;
   }
 
-  ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe((param) => {
-      this.id = param.get('conversationId') as string;
-    });
+  ngOnInit(): void {}
+
+  selectAttachment() {
+    this.inputImage?.nativeElement.click();
+  }
+
+  sendAttachments(e: any) {
+    const form = new FormData();
+    for (let file of e.target.files) {
+      if (!file.type.startsWith('image')) {
+        alert('other types are not supported yet...');
+        e.target.value = '';
+        return;
+      }
+      form.append('file', file);
+    }
+    this.httpClient
+      .post(
+        `${environment.apiUrl}/rest/attachments/${this.conversationService.currentConversation}`,
+        form,
+      )
+      .subscribe();
+    e.target.value = '';
   }
 }

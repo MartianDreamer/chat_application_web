@@ -1,0 +1,25 @@
+.content-container {
+  height: 92vh;
+  padding: 5px;
+  border-radius: 20px;
+  background-color: white;
+  position: relative;
+  overflow-x: scroll;
+}
+
+.conversation-settings {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  content-visibility: auto;
+  border-radius: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+.conversation-settings:hover {
+  background-color: lightgray;
+}

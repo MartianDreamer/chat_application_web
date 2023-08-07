@@ -11,16 +11,30 @@ import { AppNotification, NEW_CONVERSATION } from '../model/notification';
   providedIn: 'root',
 })
 export class ConversationService {
-  currentConversation: string | undefined;
+  private _currentConversation: string | undefined;
   addedUsers: Array<string> = [];
   private _conversations: Array<Conversation> = [];
   private _conversationLoaded = new Subject<string>();
+  private _currentConversationChange = new Subject<string>();
   page = 0;
   size = 20;
   totalPages = 1;
 
   get ConversationLoaded() {
     return this._conversationLoaded.asObservable();
+  }
+
+  get currentConversation(): string | undefined {
+    return this._currentConversation;
+  }
+
+  get currentConversationChange() {
+    return this._currentConversationChange.asObservable();
+  }
+
+  set currentConversation(value: string | undefined) {
+    this._currentConversationChange.next(value as string);
+    this._currentConversation = value;
   }
 
   constructor(
