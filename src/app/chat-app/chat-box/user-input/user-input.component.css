@@ -1,0 +1,17 @@
+.user-input-container {
+  width: 100%;
+  padding: 5px;
+  display: flex;
+}
+
+.user-input {
+  width: 90%;
+  border-radius: 15px;
+  padding-left: 10px;
+  border: solid 1px lightgray;
+  resize: none;
+}
+
+.user-input:focus {
+  outline: none;
+}
