@@ -135,4 +135,10 @@ export class ConversationService {
         ];
     }
   }
+
+  getLatest(id: string) {
+    return this.httpClient.get(
+      `${environment.apiUrl}/rest/conversations/latest/${id}`,
+    );
+  }
 }

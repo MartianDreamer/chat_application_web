@@ -44,10 +44,15 @@ export class ConversationItemComponent implements OnInit, OnDestroy {
         });
       });
       this.conversationService
-        .getContent(this.conversation.id, 1)
+        .getLatest(this.conversation.id)
         .subscribe((res: any) => {
           if (res.length > 0 && !this.lastContent) {
-            this.lastContent = res[0];
+            this.lastContent = res[0] as ConversationContent;
+            this.notificationService
+              .isAcknowledged(this.lastContent.dto.id, this.lastContent.type)
+              .subscribe((resp: any) => {
+                if (this.lastContent) this.lastContent.read = !resp;
+              });
           }
         });
       this.routeSubscription = this.activatedRoute.paramMap.subscribe(
@@ -65,6 +70,7 @@ export class ConversationItemComponent implements OnInit, OnDestroy {
             this.lastContent = {
               type: not.type,
               dto: not.content,
+              read: false,
             };
           }
         });
@@ -73,6 +79,7 @@ export class ConversationItemComponent implements OnInit, OnDestroy {
 
   onClick() {
     this.router.navigateByUrl(`/app/c/${this.conversation?.id}`);
+    if (this.lastContent) this.lastContent.read = true;
   }
 
   ngOnDestroy(): void {

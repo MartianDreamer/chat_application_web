@@ -9,6 +9,7 @@ export interface Conversation {
 
 export interface ConversationContent {
   type: 'MESSAGE' | 'ATTACHMENT';
+  read: boolean;
   dto: {
     id: string;
     to: string;

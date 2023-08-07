@@ -9,13 +9,18 @@ import {
   ONLINE_STATUS_CHANGE,
 } from '../model/notification';
 import { ATTACHMENT, MESSAGE } from '../model/conversation';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class NotificationService {
   private _friendSubject = new Subject<AppNotification>();
   private _conversationSubject = new Subject<AppNotification>();
 
-  constructor(private wsService: WebsocketConnectService) {
+  constructor(
+    private wsService: WebsocketConnectService,
+    private httpClient: HttpClient,
+  ) {
     this.wsService.Connection.subscribe((val: AppNotification) => {
       if (
         [FRIEND_ACCEPT, FRIEND_REQUEST, ONLINE_STATUS_CHANGE].includes(val.type)
@@ -33,5 +38,12 @@ export class NotificationService {
 
   get ConversationObservable() {
     return this._conversationSubject.asObservable();
+  }
+
+  isAcknowledged(id: string, type) {
+    const params = new HttpParams().set('entity-id', id).set('type', type);
+    return this.httpClient.get(`${environment.apiUrl}/rest/notifications/ask`, {
+      params,
+    });
   }
 }

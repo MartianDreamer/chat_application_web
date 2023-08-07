@@ -15,7 +15,9 @@
   </div>
   <div class="content-container">
     <p class="conversation-title">{{ conversation?.name }}</p>
-    <div class="latest-message-container">
+    <div class="latest-message-container" [style]="{
+    'font-weight': lastContent && !lastContent?.read ? '700': ''
+    }">
       <div class="latest-message">
         {{
         !lastContent
