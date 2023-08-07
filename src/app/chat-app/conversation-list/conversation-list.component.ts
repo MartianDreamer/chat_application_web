@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { ConversationService } from '../service/conversation.service';
 import { Subscription } from 'rxjs';
 
@@ -19,17 +19,31 @@ export class ConversationListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.router.events.subscribe((e: any) => {
+      if (e instanceof NavigationEnd) {
+        const id = e.url.substring(e.url.lastIndexOf('/') + 1);
+        if (id.length === 36) {
+          this.conversationService.currentConversation = id;
+        }
+      }
+    });
     if (this.router.url.endsWith('/c/n')) {
       this.mode = 'CREATE';
     } else {
       this.mode = 'CONVERSATION';
-    }
-    const conversationLoaded =
-      this.conversationService.ConversationLoaded.subscribe((res) => {
-        this.router.navigateByUrl(`/app/c/${res}`).then(() => {
-          conversationLoaded.unsubscribe();
+      const conversationLoaded =
+        this.conversationService.ConversationLoaded.subscribe((res) => {
+          this.router.navigateByUrl(`/app/c/${res}`).then(() => {
+            conversationLoaded.unsubscribe();
+            this.conversationService.currentConversation = res;
+          });
         });
-      });
+      if (this.conversationService.currentConversation) {
+        this.router.navigateByUrl(
+          `/app/c/${this.conversationService.currentConversation}`,
+        );
+      }
+    }
     this.conversationSubscription = this.conversationService.subscribe();
   }
 
@@ -41,9 +55,13 @@ export class ConversationListComponent implements OnInit, OnDestroy {
         });
         break;
       case 'CREATE':
-        this.router.navigateByUrl('/app/c').then(() => {
-          this.mode = 'CONVERSATION';
-        });
+        this.router
+          .navigateByUrl(
+            `/app/c/${this.conversationService.currentConversation}`,
+          )
+          .then(() => {
+            this.mode = 'CONVERSATION';
+          });
     }
   }
 

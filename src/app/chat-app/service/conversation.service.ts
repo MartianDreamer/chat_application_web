@@ -11,6 +11,7 @@ import { AppNotification, NEW_CONVERSATION } from '../model/notification';
   providedIn: 'root',
 })
 export class ConversationService {
+  currentConversation: string | undefined;
   addedUsers: Array<string> = [];
   private _conversations: Array<Conversation> = [];
   private _conversationLoaded = new Subject<string>();
