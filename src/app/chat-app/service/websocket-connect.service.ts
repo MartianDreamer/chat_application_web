@@ -9,14 +9,16 @@ import * as SockJS from 'sockjs-client';
 @Injectable()
 export class WebsocketConnectService {
   private notificationSubject = new Subject<AppNotification>();
+  private client: Client;
+
   constructor(private authService: AuthenticationService) {
-    const client = new Client({
+    this.client = new Client({
       webSocketFactory: () => new SockJS(environment.wsUrl),
       connectHeaders: {
         Authorization: `Bearer ${this.authService.AccessToken}`,
       },
       onConnect: () => {
-        client.subscribe('/user/queue/notification', (message: any) => {
+        this.client.subscribe('/user/queue/notification', (message: any) => {
           this.notificationSubject.next(JSON.parse(message.body));
         });
       },
@@ -29,10 +31,17 @@ export class WebsocketConnectService {
         console.log(frame);
       },
     });
-    client.activate();
+    this.client.activate();
   }
 
   get Connection() {
     return this.notificationSubject.asObservable();
+  }
+
+  send(destination: string, body: string) {
+    this.client.publish({
+      destination,
+      body,
+    });
   }
 }

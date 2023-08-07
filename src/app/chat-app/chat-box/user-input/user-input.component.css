@@ -2,10 +2,11 @@
   width: 100%;
   padding: 5px;
   display: flex;
+  justify-content: center;
 }
 
 .user-input {
-  width: 90%;
+  width: 100%;
   border-radius: 15px;
   padding-left: 10px;
   border: solid 1px lightgray;
@@ -14,4 +15,19 @@
 
 .user-input:focus {
   outline: none;
+}
+
+.image-input {
+  margin-left: 10px;
+  border-radius: 30px;
+  content-visibility: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+}
+
+.image-input:hover {
+  background-color: lightgray;
 }
