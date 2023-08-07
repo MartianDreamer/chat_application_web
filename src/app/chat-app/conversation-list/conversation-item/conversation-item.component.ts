@@ -1,24 +1,82 @@
-import {Component, Input} from '@angular/core';
-import {ATTACHMENT, Conversation, ConversationContent, MESSAGE,} from '../../model/conversation';
-import {FriendService} from '../../service/friend.service';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ATTACHMENT,
+  Conversation,
+  ConversationContent,
+  MESSAGE,
+} from '../../model/conversation';
+import { FriendService } from '../../service/friend.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ConversationService } from '../../service/conversation.service';
+import { NotificationService } from '../../service/notification.service';
 
 @Component({
   selector: 'app-conversation-item',
   templateUrl: './conversation-item.component.html',
   styleUrls: ['./conversation-item.component.css'],
 })
-export class ConversationItemComponent {
+export class ConversationItemComponent implements OnInit, OnDestroy {
   @Input() public conversation: Conversation | undefined;
   lastContent: ConversationContent | undefined;
-  get ATTACHMENT() {
-    return ATTACHMENT;
-  }
+  activated = false;
+  routeSubscription: Subscription | undefined;
+  contentSubscription: Subscription | undefined;
 
   get MESSAGE() {
     return MESSAGE;
   }
 
-  constructor(private friendService: FriendService) {}
+  constructor(
+    private friendService: FriendService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private conversationService: ConversationService,
+    private notificationService: NotificationService,
+  ) {}
 
+  ngOnInit(): void {
+    if (this.conversation) {
+      this.conversation.members.forEach((e) => {
+        if (e.avatar) return;
+        this.friendService.loadAvatar(e.id).subscribe((res: any) => {
+          e.avatar = res.content;
+        });
+      });
+      this.conversationService
+        .getContent(this.conversation.id, 1)
+        .subscribe((res: any) => {
+          if (res.length > 0 && !this.lastContent) {
+            this.lastContent = res[0];
+          }
+        });
+      this.routeSubscription = this.activatedRoute.paramMap.subscribe(
+        (param) => {
+          const id = param.get('conversationId');
+          this.activated = id === this.conversation?.id;
+        },
+      );
+      this.contentSubscription =
+        this.notificationService.ConversationObservable.subscribe((not) => {
+          if (
+            (not.type === MESSAGE || not.type === ATTACHMENT) &&
+            not.content.to === this.conversation?.id
+          ) {
+            this.lastContent = {
+              type: not.type,
+              dto: not.content,
+            };
+          }
+        });
+    }
+  }
 
+  onClick() {
+    this.router.navigateByUrl(`/app/c/${this.conversation?.id}`);
+  }
+
+  ngOnDestroy(): void {
+    this.routeSubscription?.unsubscribe();
+    this.contentSubscription?.unsubscribe();
+  }
 }

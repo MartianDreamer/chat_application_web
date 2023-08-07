@@ -1,31 +1,32 @@
-<div class="conversation-item-container">
+<div class="conversation-item-container" [class.conversation-item-container-clicked]="activated" (click)="onClick()">
   <div class="member-avatars">
-    <img
-      *ngFor="let member of conversation?.members | slice : 0 : 8"
-      class="avatar"
-      [src]="
+    <div *ngFor="let member of conversation?.members | slice : 0 : 2" class="avatar-frame">
+      <img
+        class="avatar"
+        [src]="
         member.avatar
           ? 'data:image/jpeg;base64,' + member.avatar
           : '/assets/images/Classic_Outfit.png'
       "
-      alt=""
-      srcset=""
-    />
+        alt=""
+        srcset=""
+      />
+    </div>
   </div>
   <div class="content-container">
     <p class="conversation-title">{{ conversation?.name }}</p>
     <div class="latest-message-container">
       <div class="latest-message">
         {{
-        lastContent
-          ? lastContent.type == MESSAGE
-            ? lastContent.object.content
-            : "New attachments"
-          : "New conversation"
+        !lastContent
+          ? "New conversation" :
+          lastContent.type == MESSAGE ?
+            lastContent.dto.content :
+            "New attachments"
         }}
       </div>
       <p
-        class="message-timestamp">{{ (lastContent ? lastContent.object.timestamp : conversation?.modifiedAt)  | appDate }} </p>
+        class="message-timestamp">{{ (lastContent ? lastContent.dto.timestamp : conversation?.modifiedAt)  | appDate }} </p>
     </div>
   </div>
 </div>

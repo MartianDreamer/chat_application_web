@@ -9,10 +9,13 @@ import { FriendService } from '../service/friend.service';
   styleUrls: ['./friend-list.component.css'],
 })
 export class FriendListComponent implements OnDestroy, OnInit {
-  private friendSubcription: Subscription;
+  private friendSubscription: Subscription;
   mode: 'friend' | 'request' | 'search' = 'friend';
-  constructor(protected friendService: FriendService, private router: Router) {
-    this.friendSubcription = this.friendService.subscribe();
+  constructor(
+    protected friendService: FriendService,
+    private router: Router,
+  ) {
+    this.friendSubscription = this.friendService.subscribe();
   }
 
   ngOnInit(): void {
@@ -26,7 +29,7 @@ export class FriendListComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    this.friendSubcription.unsubscribe();
+    this.friendSubscription.unsubscribe();
   }
 
   onEnter(e: any) {

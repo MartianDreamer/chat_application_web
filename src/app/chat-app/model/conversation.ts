@@ -9,7 +9,7 @@ export interface Conversation {
 
 export interface ConversationContent {
   type: 'MESSAGE' | 'ATTACHMENT';
-  object: {
+  dto: {
     id: string;
     to: string;
     from: string;
@@ -18,5 +18,5 @@ export interface ConversationContent {
   };
 }
 
-export const MESSAGE = 'MESSAGE'
-export const ATTACHMENT = 'ATTACHMENT'
+export const MESSAGE = 'MESSAGE';
+export const ATTACHMENT = 'ATTACHMENT';

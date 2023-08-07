@@ -1,5 +1,8 @@
 .conversation-item-container {
   padding: 10px;
+  display: grid;
+  grid-template-columns: 15% 80%;
+  grid-gap: 10px;
 }
 
 .conversation-item-container:hover {
@@ -19,15 +22,24 @@
 }
 
 .member-avatars {
-  height: 40px;
+  height: 54px;
+  width: 54px;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 54px;
   content-visibility: auto;
-  margin-bottom: 5px;
+  align-content: flex-start;
+}
+
+.avatar-frame {
+  height: 54px;
+  width: 27px;
+  content-visibility: auto;
+  overflow: hidden;
 }
 
 .avatar {
-  height: 32px;
-  width: 32px;
-  margin-right: 2px;
+  height: 54px;
 }
 
 .latest-message-container {

@@ -1,18 +1,19 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { User } from '../../model/user';
-import { concatMap } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { FriendListComponent } from '../friend-list.component';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {User} from '../../model/user';
+import {concatMap, Subscription} from 'rxjs';
+import {environment} from 'src/environments/environment';
+import {FriendListComponent} from '../friend-list.component';
 
 @Component({
   selector: 'app-search-list',
   templateUrl: './search-list.component.html',
   styleUrls: ['./search-list.component.css'],
 })
-export class SearchListComponent implements OnInit {
+export class SearchListComponent implements OnInit, OnDestroy {
   result: User | undefined;
+  subscription: Subscription | undefined;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -31,7 +32,7 @@ export class SearchListComponent implements OnInit {
         });
       })
     );
-    getUserPipe
+    this.subscription = getUserPipe
       .pipe(
         concatMap((val: any) => {
           this.result = val;
@@ -54,5 +55,9 @@ export class SearchListComponent implements OnInit {
           }, 700);
         },
       });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }
