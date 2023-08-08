@@ -13,9 +13,9 @@ import { NotificationService } from '../../service/notification.service';
 })
 export class ConversationContentComponent implements OnInit, OnDestroy {
   contents: Array<ConversationContent> = [];
-  loadedConversationId = '';
   private conversationSubscription: Subscription | undefined;
   private contentSubscription: Subscription | undefined;
+  private isFinishLoading = false;
 
   constructor(
     private conversationService: ConversationService,
@@ -49,20 +49,33 @@ export class ConversationContentComponent implements OnInit, OnDestroy {
   }
 
   loadMoreContent(id: string) {
-    this.loadedConversationId = id;
-    const params = new HttpParams().set('limit', 50);
+    let params = new HttpParams().set('limit', 50);
     if (this.contents.length > 0) {
-      params.set('timestamp', this.contents[0].dto.timestamp);
+      params = params.set('timestamp', this.contents[0].dto.timestamp);
     }
-    this.httpClient
-      .get(`${environment.apiUrl}/rest/conversations/contents/${id}`, {
-        params,
-      })
-      .subscribe((res: any) => {
-        res.reverse();
-        this.contents = [...res, ...this.contents];
-      });
+    if (!this.isFinishLoading) {
+      this.httpClient
+        .get(`${environment.apiUrl}/rest/conversations/contents/${id}`, {
+          params,
+        })
+        .subscribe((res: any) => {
+          if (res.length === 0) {
+            this.isFinishLoading = true;
+            return;
+          }
+          res.reverse();
+          this.contents = [...res, ...this.contents];
+        });
+    }
   }
 
   protected readonly MESSAGE = MESSAGE;
+
+  scrollStart(e: any) {
+    if (e.target.scrollTop === 0) {
+      this.loadMoreContent(
+        this.conversationService.currentConversation as string,
+      );
+    }
+  }
 }

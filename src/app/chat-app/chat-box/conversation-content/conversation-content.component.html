@@ -1,4 +1,4 @@
-<div class="content-container">
+<div class="content-container" (scroll)="scrollStart($event)">
     <div style="margin-top: 50px">
         <div *ngFor="let content of contents">
             <app-message-frame [message]="content" *ngIf="content.type === MESSAGE; else att"></app-message-frame>
