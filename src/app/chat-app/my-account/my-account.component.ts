@@ -98,9 +98,11 @@ export class MyAccountComponent {
           phoneNumber: this.tempPhoneNumber as string,
           online: this.Self?.online as boolean,
           lastSeen: this.Self?.lastSeen as string,
-          avatar: undefined,
+          avatar: this.selfService.Self?.avatar,
         };
-        if (this.tempAvatar) this.selfService.Self.avatar = this.tempAvatar;
+        if (this.tempAvatar) {
+          this.selfService.Self.avatar = this.tempAvatar;
+        }
         this.closeMyAccount();
       },
       error: () => {
@@ -112,9 +114,11 @@ export class MyAccountComponent {
   editUsername() {
     this.isEditingUsername = !this.isEditingUsername;
   }
+
   editEmail() {
     this.isEditingEmail = !this.isEditingEmail;
   }
+
   editPhone() {
     this.isEditingPhone = !this.isEditingPhone;
   }
