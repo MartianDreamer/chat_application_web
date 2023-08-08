@@ -1,4 +1,10 @@
-import { Component, Input } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import { ConversationContent } from '../../../model/conversation';
 import { ConversationService } from '../../../service/conversation.service';
 import { SelfService } from '../../../service/self.service';
@@ -8,8 +14,9 @@ import { SelfService } from '../../../service/self.service';
   templateUrl: './message-frame.component.html',
   styleUrls: ['./message-frame.component.css'],
 })
-export class MessageFrameComponent {
+export class MessageFrameComponent implements AfterViewInit {
   @Input() message: ConversationContent | undefined;
+  @ViewChild('newMessage') newMessage: ElementRef | undefined;
 
   constructor(
     private conversationService: ConversationService,
@@ -25,5 +32,9 @@ export class MessageFrameComponent {
       return member?.avatar;
     }
     return undefined;
+  }
+
+  ngAfterViewInit(): void {
+    this.newMessage?.nativeElement.scrollIntoView();
   }
 }

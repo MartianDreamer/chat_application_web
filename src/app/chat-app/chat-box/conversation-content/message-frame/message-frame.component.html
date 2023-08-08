@@ -1,4 +1,4 @@
-<div class="{{selfService.Self?.id === message?.dto?.from ? 'message-from-me' : 'message-from-others'}}">
+<div class="{{selfService.Self?.id === message?.dto?.from ? 'message-from-me' : 'message-from-others'}}" #newMessage>
   <div class="avatar-frame" *ngIf="selfService.Self?.id !== message?.dto?.from">
     <img class="avatar"
          [src]="MessageAvatar ? 'data:image/jpeg;base64,' + MessageAvatar : '/assets/images/Classic_Outfit.png'" alt="">

@@ -1,1 +1,10 @@
-<p>attachment-frame works!</p>
+<div class="{{selfService.Self?.id === message?.dto?.from ? 'message-from-me' : 'message-from-others'}}" #newAttachment>
+    <div class="avatar-frame" *ngIf="selfService.Self?.id !== message?.dto?.from">
+        <img class="avatar"
+             [src]="MessageAvatar ? 'data:image/jpeg;base64,' + MessageAvatar : '/assets/images/Classic_Outfit.png'"
+             alt="">
+    </div>
+    <div class="message-frame {{selfService.Self?.id === message?.dto?.from ? 'me-color' : 'they-color'}}">
+        <img class="image-content" *ngFor="let content of contents" src="data:image/jpeg;base64,{{content.content}}" alt="">
+    </div>
+</div>

@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { FriendService } from '../service/friend.service';
 
 @Component({
@@ -9,14 +8,12 @@ import { FriendService } from '../service/friend.service';
   styleUrls: ['./friend-list.component.css'],
 })
 export class FriendListComponent implements OnDestroy, OnInit {
-  private friendSubscription: Subscription;
   mode: 'friend' | 'request' | 'search' = 'friend';
+
   constructor(
     protected friendService: FriendService,
     private router: Router,
-  ) {
-    this.friendSubscription = this.friendService.subscribe();
-  }
+  ) {}
 
   ngOnInit(): void {
     if (this.router.url.endsWith('f')) {
@@ -28,9 +25,7 @@ export class FriendListComponent implements OnDestroy, OnInit {
     }
   }
 
-  ngOnDestroy(): void {
-    this.friendSubscription.unsubscribe();
-  }
+  ngOnDestroy(): void {}
 
   onEnter(e: any) {
     if (e.target.value === '') {

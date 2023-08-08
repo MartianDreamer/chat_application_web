@@ -24,6 +24,15 @@ export class ConversationService {
   page = 0;
   size = 20;
   totalPages = 1;
+  private _newNotification = false;
+
+  get newNotification(): boolean {
+    return this._newNotification;
+  }
+
+  set newNotification(value: boolean) {
+    this._newNotification = value;
+  }
 
   get ConversationLoaded() {
     return this._conversationLoaded.asObservable();
@@ -120,23 +129,6 @@ export class ConversationService {
     return this._conversations.find((e) => e.id === id);
   }
 
-  getContent(
-    id: string,
-    limit: number,
-    timestamp: string | undefined = undefined,
-  ) {
-    let params = new HttpParams().set('limit', limit);
-    if (timestamp) {
-      params.set('timestamp', timestamp);
-    }
-    return this.httpClient.get(
-      `${environment.apiUrl}/rest/conversations/contents/${id}`,
-      {
-        params,
-      },
-    );
-  }
-
   subscribeConversation() {
     return this.notificationService.ConversationObservable.subscribe((res) => {
       this.handleNotification(res);
@@ -144,6 +136,7 @@ export class ConversationService {
   }
 
   handleNotification(not: AppNotification) {
+    this._newNotification = true;
     if (not.type === NEW_CONVERSATION) {
       this._conversations = [not.content, ...this._conversations];
     } else {
@@ -171,6 +164,7 @@ export class ConversationService {
       else return;
       if (mes.content.to === conversationId) {
         subject.next({
+          notificationId: mes.id,
           type,
           dto: mes.content,
           read: true,

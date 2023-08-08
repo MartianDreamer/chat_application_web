@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, NavigationSkipped, Router } from '@angular/router';
 import { ConversationService } from '../service/conversation.service';
 import { Subscription } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './conversation-list.component.html',
   styleUrls: ['./conversation-list.component.css'],
 })
-export class ConversationListComponent implements OnInit, OnDestroy {
+export class ConversationListComponent implements OnInit {
   mode: 'CONVERSATION' | 'CREATE' = 'CONVERSATION';
   newConversationName: string = '';
   conversationSubscription: Subscription | undefined;
@@ -19,10 +19,15 @@ export class ConversationListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.conversationService.newNotification = false;
     this.router.events.subscribe((e: any) => {
-      if (e instanceof NavigationEnd) {
+      if (e instanceof NavigationEnd || e instanceof NavigationSkipped) {
         const id = e.url.substring(e.url.lastIndexOf('/') + 1);
-        if (id.length === 36 && e.url.startsWith('/app/c')) {
+        if (
+          id.length === 36 &&
+          e.url.startsWith('/app/c') &&
+          id !== this.conversationService.currentConversation
+        ) {
           this.conversationService.currentConversation = id;
         }
       }
@@ -35,7 +40,6 @@ export class ConversationListComponent implements OnInit, OnDestroy {
         this.conversationService.ConversationLoaded.subscribe((res) => {
           this.router.navigateByUrl(`/app/c/${res}`).then(() => {
             conversationLoaded.unsubscribe();
-            this.conversationService.currentConversation = res;
           });
         });
       if (this.conversationService.currentConversation) {
@@ -44,7 +48,6 @@ export class ConversationListComponent implements OnInit, OnDestroy {
         );
       }
     }
-    this.conversationSubscription = this.conversationService.subscribeConversation();
   }
 
   newConversation() {
@@ -70,9 +73,5 @@ export class ConversationListComponent implements OnInit, OnDestroy {
       this.conversationService.createConversation(this.newConversationName);
     }
     this.newConversationName = '';
-  }
-
-  ngOnDestroy(): void {
-    this.conversationSubscription?.unsubscribe();
   }
 }

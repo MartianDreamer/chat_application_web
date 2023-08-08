@@ -31,3 +31,17 @@
 .image-input:hover {
   background-color: lightgray;
 }
+
+.conversation-settings {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  content-visibility: auto;
+  border-radius: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+.conversation-settings:hover {
+  background-color: lightgray;
+}

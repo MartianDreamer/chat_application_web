@@ -1,13 +1,10 @@
 <div class="content-container">
-  <div class="conversation-settings">
-    <img src="/assets/icons/gear-fill.svg" alt="" style="width: 20px; height: 20px">
-  </div>
-  <div style="margin-top: 50px">
-    <div *ngFor="let content of contents">
-      <app-message-frame [message]="content" *ngIf="content.type === MESSAGE; else att"></app-message-frame>
-      <ng-template #att>
-        <app-attachment-frame></app-attachment-frame>
-      </ng-template>
+    <div style="margin-top: 50px">
+        <div *ngFor="let content of contents">
+            <app-message-frame [message]="content" *ngIf="content.type === MESSAGE; else att"></app-message-frame>
+            <ng-template #att>
+                <app-attachment-frame [message]="content"></app-attachment-frame>
+            </ng-template>
+        </div>
     </div>
-  </div>
 </div>

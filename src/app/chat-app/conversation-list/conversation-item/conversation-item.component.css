@@ -1,5 +1,6 @@
 .conversation-item-container {
   padding: 10px;
+  caret-color: transparent;
   display: grid;
   grid-template-columns: 15% 80%;
   grid-gap: 10px;

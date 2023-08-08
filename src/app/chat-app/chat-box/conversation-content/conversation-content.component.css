@@ -7,23 +7,6 @@
   overflow-x: scroll;
 }
 
-.conversation-settings {
-  position: absolute;
-  right: 10px;
-  top: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  content-visibility: auto;
-  border-radius: 32px;
-  width: 32px;
-  height: 32px;
-}
-
-.conversation-settings:hover {
-  background-color: lightgray;
-}
-
 .avatar {
   width: 20px;
 }

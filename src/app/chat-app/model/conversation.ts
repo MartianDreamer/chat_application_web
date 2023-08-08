@@ -17,6 +17,12 @@ export interface ConversationContent {
     timestamp: string;
     content: string;
   };
+  notificationId: string | undefined;
+}
+
+export interface AttachmentContent {
+  fileName: string;
+  content: string;
 }
 
 export const MESSAGE = 'MESSAGE';

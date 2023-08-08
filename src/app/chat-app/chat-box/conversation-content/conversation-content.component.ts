@@ -4,6 +4,7 @@ import { ConversationService } from '../../service/conversation.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { Subscription } from 'rxjs';
+import { NotificationService } from '../../service/notification.service';
 
 @Component({
   selector: 'app-conversation-content',
@@ -18,6 +19,7 @@ export class ConversationContentComponent implements OnInit, OnDestroy {
 
   constructor(
     private conversationService: ConversationService,
+    private notificationService: NotificationService,
     private httpClient: HttpClient,
   ) {}
 
@@ -31,16 +33,22 @@ export class ConversationContentComponent implements OnInit, OnDestroy {
       this.conversationService.currentConversationChange.subscribe((id) => {
         this.contents = [];
         this.loadMoreContent(id);
+        this.contentSubscription?.unsubscribe();
         this.contentSubscription = this.conversationService
           .subscribeContent(id)
-          .subscribe((content) => this.contents.push(content));
+          .subscribe((content) => {
+            this.notificationService
+              .acknowledge(content.notificationId as string)
+              .subscribe();
+            this.conversationService.newNotification = false;
+            this.contents.push(content);
+          });
       });
+    if (this.conversationService.currentConversation)
+      this.loadMoreContent(this.conversationService.currentConversation);
   }
 
   loadMoreContent(id: string) {
-    if (this.loadedConversationId === id || !id) {
-      return;
-    }
     this.loadedConversationId = id;
     const params = new HttpParams().set('limit', 50);
     if (this.contents.length > 0) {

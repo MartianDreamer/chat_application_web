@@ -1,4 +1,7 @@
 <div class="user-input-container">
+  <div class="conversation-settings">
+    <img src="/assets/icons/gear-fill.svg" alt="" style="width: 20px; height: 20px">
+  </div>
   <textarea name="" id="" rows="1" class="user-input" (input)="updateRows($event)" (keydown.enter)="enter($event)"
             [(ngModel)]="messageContent" #inputMessage></textarea>
   <div class="image-input" (click)="selectAttachment()">

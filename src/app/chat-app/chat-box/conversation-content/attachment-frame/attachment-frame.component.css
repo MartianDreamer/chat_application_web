@@ -1,0 +1,7 @@
+@import url(../message-frame/message-frame.component.css);
+
+.image-content {
+    max-height: 100px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}

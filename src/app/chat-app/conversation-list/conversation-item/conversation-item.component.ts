@@ -68,11 +68,18 @@ export class ConversationItemComponent implements OnInit, OnDestroy {
             not.content.to === this.conversation?.id
           ) {
             this.lastContent = {
+              notificationId: not.id,
               type: not.type,
               dto: not.content,
               read:
                 this.conversationService.currentConversation === not.content.to,
             };
+            if (
+              this.conversationService.currentConversation === not.content.to
+            ) {
+              this.notificationService.acknowledge(not.id as string);
+              this.conversationService.newNotification = false;
+            }
           }
         });
     }

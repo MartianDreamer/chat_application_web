@@ -40,10 +40,16 @@ export class NotificationService {
     return this._conversationSubject.asObservable();
   }
 
-  isAcknowledged(id: string, type) {
+  isAcknowledged(id: string, type: string) {
     const params = new HttpParams().set('entity-id', id).set('type', type);
     return this.httpClient.get(`${environment.apiUrl}/rest/notifications/ask`, {
       params,
     });
+  }
+
+  acknowledge(id: string) {
+    return this.httpClient.delete(
+      `${environment.apiUrl}/rest/notifications/${id}`,
+    );
   }
 }
