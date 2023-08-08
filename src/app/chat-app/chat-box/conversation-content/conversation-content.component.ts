@@ -1,27 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import { ConversationContent } from '../../model/conversation';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ConversationContent, MESSAGE } from '../../model/conversation';
 import { ConversationService } from '../../service/conversation.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-conversation-content',
   templateUrl: './conversation-content.component.html',
   styleUrls: ['./conversation-content.component.css'],
 })
-export class ConversationContentComponent implements OnInit {
+export class ConversationContentComponent implements OnInit, OnDestroy {
   contents: Array<ConversationContent> = [];
   loadedConversationId = '';
+  private conversationSubscription: Subscription | undefined;
+  private contentSubscription: Subscription | undefined;
 
   constructor(
     private conversationService: ConversationService,
     private httpClient: HttpClient,
   ) {}
 
+  ngOnDestroy(): void {
+    this.contentSubscription?.unsubscribe();
+    this.conversationSubscription?.unsubscribe();
+  }
+
   ngOnInit(): void {
-    this.conversationService.currentConversationChange.subscribe((id) => {
-      this.loadMoreContent(id);
-    });
+    this.conversationSubscription =
+      this.conversationService.currentConversationChange.subscribe((id) => {
+        this.contents = [];
+        this.loadMoreContent(id);
+        this.contentSubscription = this.conversationService
+          .subscribeContent(id)
+          .subscribe((content) => this.contents.push(content));
+      });
   }
 
   loadMoreContent(id: string) {
@@ -38,7 +51,10 @@ export class ConversationContentComponent implements OnInit {
         params,
       })
       .subscribe((res: any) => {
-        this.contents.push(...res);
+        res.reverse();
+        this.contents = [...res, ...this.contents];
       });
   }
+
+  protected readonly MESSAGE = MESSAGE;
 }

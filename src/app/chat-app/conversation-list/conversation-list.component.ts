@@ -44,7 +44,7 @@ export class ConversationListComponent implements OnInit, OnDestroy {
         );
       }
     }
-    this.conversationSubscription = this.conversationService.subscribe();
+    this.conversationSubscription = this.conversationService.subscribeConversation();
   }
 
   newConversation() {

@@ -23,3 +23,18 @@
 .conversation-settings:hover {
   background-color: lightgray;
 }
+
+.avatar {
+  width: 20px;
+}
+
+.avatar-frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  content-visibility: auto;
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
+  margin-right: 10px;
+}

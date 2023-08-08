@@ -1,0 +1,35 @@
+@import url(../conversation-content.component.css);
+
+.message-frame {
+  max-width: 200px;
+  border-radius: 20px;
+  padding: 5px 15px;
+}
+
+.me-color {
+  background-color: rgb(120, 180, 240);
+}
+
+.they-color {
+  background-color: rgb(220, 220, 220);
+}
+
+.message-from-others {
+  width: 96%;
+  margin: 10px;
+  display: flex;
+  justify-content: left;
+  align-items: flex-end;
+}
+
+.message-from-me {
+  width: 96%;
+  margin: 10px;
+  display: flex;
+  justify-content: right;
+  text-align: right;
+}
+
+.message-content {
+  font-size: large;
+}

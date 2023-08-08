@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Conversation } from '../model/conversation';
+import { Conversation, ConversationContent } from '../model/conversation';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { NotificationService } from './notification.service';
-import { AppNotification, NEW_CONVERSATION } from '../model/notification';
+import {
+  AppNotification,
+  ATTACHMENT,
+  MESSAGE,
+  NEW_CONVERSATION,
+} from '../model/notification';
 
 @Injectable({
   providedIn: 'root',
@@ -132,7 +137,7 @@ export class ConversationService {
     );
   }
 
-  subscribe() {
+  subscribeConversation() {
     return this.notificationService.ConversationObservable.subscribe((res) => {
       this.handleNotification(res);
     });
@@ -155,5 +160,27 @@ export class ConversationService {
     return this.httpClient.get(
       `${environment.apiUrl}/rest/conversations/latest/${id}`,
     );
+  }
+
+  subscribeContent(conversationId: string) {
+    const subject = new Subject<ConversationContent>();
+    this.notificationService.ConversationObservable.subscribe((mes) => {
+      let type: 'ATTACHMENT' | 'MESSAGE';
+      if (mes.type === ATTACHMENT) type = ATTACHMENT;
+      else if (mes.type === MESSAGE) type = MESSAGE;
+      else return;
+      if (mes.content.to === conversationId) {
+        subject.next({
+          type,
+          dto: mes.content,
+          read: true,
+        });
+      }
+    });
+    return subject.asObservable();
+  }
+
+  getCurrentConversation() {
+    return this._conversations.find((e) => e.id === this.currentConversation);
   }
 }

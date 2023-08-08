@@ -70,7 +70,8 @@ export class ConversationItemComponent implements OnInit, OnDestroy {
             this.lastContent = {
               type: not.type,
               dto: not.content,
-              read: false,
+              read:
+                this.conversationService.currentConversation === not.content.to,
             };
           }
         });

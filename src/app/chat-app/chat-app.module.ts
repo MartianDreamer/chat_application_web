@@ -35,6 +35,8 @@ import {SelfService} from './service/self.service';
 import {WebsocketConnectService} from './service/websocket-connect.service';
 import {MyConversationsComponent} from './conversation-list/my-conversations/my-conversations.component';
 import {DatePipe} from '../pipe/date.pipe';
+import { MessageFrameComponent } from './chat-box/conversation-content/message-frame/message-frame.component';
+import { AttachmentFrameComponent } from './chat-box/conversation-content/attachment-frame/attachment-frame.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,9 @@ import {DatePipe} from '../pipe/date.pipe';
     NewConversationFriendListComponent,
     NewConversationFriendItemComponent,
     MyConversationsComponent,
-    DatePipe
+    DatePipe,
+    MessageFrameComponent,
+    AttachmentFrameComponent
   ],
   imports: [CommonModule, ChatAppRoutingModule, FormsModule],
   providers: [
