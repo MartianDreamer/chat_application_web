@@ -4,6 +4,7 @@
   display: grid;
   grid-template-columns: 15% 80%;
   grid-gap: 10px;
+  cursor: pointer;
 }
 
 .conversation-item-container:hover {

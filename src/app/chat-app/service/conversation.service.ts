@@ -56,7 +56,6 @@ export class ConversationService {
     private router: Router,
     private notificationService: NotificationService,
   ) {
-    this.loadMoreConversation();
   }
 
   get Conversations(): Array<Conversation> {

@@ -46,6 +46,8 @@ export class ConversationListComponent implements OnInit {
         this.router.navigateByUrl(
           `/app/c/${this.conversationService.currentConversation}`,
         );
+      } else {
+        this.conversationService.loadMoreConversation();
       }
     }
   }
