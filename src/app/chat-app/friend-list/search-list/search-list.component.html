@@ -1,8 +1,11 @@
 <ul class="overflow-auto friend-list">
   <li>
-    <app-search-item [user]="result" *ngIf="result"></app-search-item>
-    <div *ngIf="!result" class="alert alert-danger" role="alert">
+    <div *ngIf="addedUsername" class="alert alert-success" role="alert">
+      A friend request is sent to user {{addedUsername}}.
+    </div>
+    <div *ngIf="!result && !loading" class="alert alert-danger" role="alert">
       Not found user!!!
     </div>
+    <app-search-item [user]="result" *ngIf="result" (addEmitter)="handleAdd($event)"></app-search-item>
   </li>
 </ul>

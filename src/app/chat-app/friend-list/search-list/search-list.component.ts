@@ -1,5 +1,5 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../../model/user';
 import {concatMap, Subscription} from 'rxjs';
@@ -11,16 +11,22 @@ import {FriendListComponent} from '../friend-list.component';
   templateUrl: './search-list.component.html',
   styleUrls: ['./search-list.component.css'],
 })
-export class SearchListComponent implements OnInit, OnDestroy {
+export class SearchListComponent implements OnInit, OnDestroy, AfterViewInit {
   result: User | undefined;
   subscription: Subscription | undefined;
+  addedUsername: string | undefined;
+  loading = true;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private httpClient: HttpClient,
     private router: Router,
-    private parent: FriendListComponent
+    private parent: FriendListComponent,
   ) {}
+
+  ngAfterViewInit(): void {
+    this.loading = false;
+  }
 
   ngOnInit(): void {
     const getUserPipe = this.activatedRoute.paramMap.pipe(
@@ -30,16 +36,16 @@ export class SearchListComponent implements OnInit, OnDestroy {
         return this.httpClient.get(`${environment.apiUrl}/rest/users`, {
           params,
         });
-      })
+      }),
     );
     this.subscription = getUserPipe
       .pipe(
         concatMap((val: any) => {
           this.result = val;
           return this.httpClient.get(
-            `${environment.apiUrl}/rest/users/avatar/${val.id}`
+            `${environment.apiUrl}/rest/users/avatar/${val.id}`,
           );
-        })
+        }),
       )
       .subscribe({
         next: (val: any) => {
@@ -59,5 +65,9 @@ export class SearchListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+  }
+
+  handleAdd(username: string | undefined) {
+    this.addedUsername = username;
   }
 }
