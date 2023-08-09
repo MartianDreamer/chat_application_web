@@ -4,15 +4,12 @@
   background-color: rgba(0, 0, 0, 0.05);
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
-  padding: auto;
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
   align-items: center;
-  padding: 2px;
   padding-top: 5px;
-  border: solid 1px;
-  border-color: lightgray;
+  border: 1px solid lightgray;
 }
 
 .chat-app-navbar-item {
@@ -38,9 +35,12 @@
 .avatar-frame {
   border: 1px;
   margin-bottom: 5px;
-  border: solid rgb(100, 220, 100); 
+  border: solid rgb(100, 220, 100);
   border-radius: 35px;
   content-visibility: auto;
   height: 40px;
   width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

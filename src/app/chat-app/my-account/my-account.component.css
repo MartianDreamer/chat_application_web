@@ -9,6 +9,9 @@
   content-visibility: auto;
   border: solid rgb(100, 220, 100);
   border-radius: 96px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .my-account {
