@@ -32,6 +32,7 @@ export class ConversationContentComponent implements OnInit, OnDestroy {
     this.conversationSubscription =
       this.conversationService.currentConversationChange.subscribe((id) => {
         this.contents = [];
+        this.isFinishLoading = false;
         this.loadMoreContent(id);
         this.contentSubscription?.unsubscribe();
         this.contentSubscription = this.conversationService

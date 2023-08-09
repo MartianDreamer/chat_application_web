@@ -1,3 +1,5 @@
+@import url(../../friend-list/friend-item/friend-item.component.css);
+
 .user-input-container {
   width: 100%;
   padding: 5px;
@@ -32,7 +34,7 @@
   background-color: lightgray;
 }
 
-.conversation-settings {
+.conversation-settings-open {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,6 +44,18 @@
   height: 32px;
 }
 
-.conversation-settings:hover {
+.conversation-settings-open:hover {
   background-color: lightgray;
+}
+
+.conversation-settings {
+  min-width: 400px;
+  border: solid 2px darkgray;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.members-container {
+  padding: 15px;
+  margin-bottom: 10px;
 }

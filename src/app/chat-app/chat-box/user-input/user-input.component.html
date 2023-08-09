@@ -1,6 +1,6 @@
 <div class="user-input-container">
-  <div class="conversation-settings">
-    <img src="/assets/icons/gear-fill.svg" alt="" style="width: 20px; height: 20px">
+  <div class="conversation-settings-open">
+    <img src="/assets/icons/gear-fill.svg" alt="" style="width: 20px; height: 20px" (click)="openSettings = true">
   </div>
   <textarea name="" id="" rows="1" class="user-input" (input)="updateRows($event)" (keydown.enter)="enter($event)"
             [(ngModel)]="messageContent" #inputMessage></textarea>
@@ -12,3 +12,48 @@
   </div>
 </div>
 <input type="file" name="file" (change)="sendAttachments($event)" multiple hidden #inputImage>
+
+<div *ngIf="openSettings" appDraggableComponent draggable="true" class="conversation-settings">
+  <div style="text-align: center; font-size: larger; font-weight: bolder; background-color: lightgray; padding: 5px"
+       class="d-flex justify-content-center">
+    <span *ngIf="!isRenaming" style="padding-bottom: 8px">{{ currentConversation?.name }}<img
+      src="/assets/icons/pencil-fill.svg"
+      alt="" (click)="isRenaming = true"></span>
+    <input appAutoFocus *ngIf="isRenaming" (focusout)="rename($event)" type="text" class="form-control"
+           placeholder="{{currentConversation?.name}}"
+           style="width: fit-content"
+           aria-label="Recipient's username"
+           aria-describedby="button-addon2">
+  </div>
+  <div class="input-group mb-1 p-2" style="width: 100%">
+    <input type="text" class="form-control" placeholder="username" aria-label="Recipient's username"
+           aria-describedby="button-addon2" [(ngModel)]="addedUsername">
+    <button class="btn btn-success" type="button" id="button-addon2" (click)="add()">Add</button>
+  </div>
+  <div class="alert alert-danger" role="alert" *ngIf="addError">
+    {{addedUsername}} can not be added.
+  </div>
+  <div class="members-container">
+    <div *ngFor="let member of currentConversation?.members" class="friend-item-container">
+      <div class="avatar-frame" [class.online]="member.online">
+        <img
+          [src]="
+        member.avatar
+          ? 'data:image/jpeg;base64,' + member.avatar
+          : 'assets/images/Classic_Outfit.png'
+      "
+          alt=""
+          class="avatar"
+        />
+      </div>
+      <div class="username-container">{{ member.username }}</div>
+      <div class="friend-control">
+        <div class="friend-control-button-unfriend" (click)="removeFromConversation(member.id)"></div>
+      </div>
+    </div>
+  </div>
+  <div style="padding-bottom: 20px; padding-right: 20px" class="d-flex justify-content-end">
+    <button type="button" class="btn btn-danger me-4" (click)="leave()">Leave this conversation</button>
+    <button type="button" class="btn btn-primary" (click)="openSettings = false">Close</button>
+  </div>
+</div>

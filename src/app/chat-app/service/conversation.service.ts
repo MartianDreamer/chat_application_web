@@ -55,11 +55,16 @@ export class ConversationService {
     private httpClient: HttpClient,
     private router: Router,
     private notificationService: NotificationService,
-  ) {
-  }
+  ) {}
 
   get Conversations(): Array<Conversation> {
     return this._conversations;
+  }
+
+  removeCurrentConversation() {
+    this._conversations = this._conversations.filter(
+      (e) => e.id !== this.currentConversation,
+    );
   }
 
   loadMoreConversation() {

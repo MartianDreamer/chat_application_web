@@ -1,12 +1,16 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
-import {Subscription} from 'rxjs';
-import {environment} from 'src/environments/environment';
-import {FriendRelationship, FriendRequest} from '../model/friend';
-import {AppNotification, FRIEND_REQUEST, ONLINE_STATUS_CHANGE,} from '../model/notification';
-import {User} from '../model/user';
-import {NotificationService} from './notification.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { FriendRelationship, FriendRequest } from '../model/friend';
+import {
+  AppNotification,
+  FRIEND_REQUEST,
+  ONLINE_STATUS_CHANGE,
+} from '../model/notification';
+import { User } from '../model/user';
+import { NotificationService } from './notification.service';
 
 @Injectable()
 export class FriendService {
@@ -20,6 +24,11 @@ export class FriendService {
   private maxFriendPage = 1;
   private maxFromMePage = 1;
   private maxToMePage = 1;
+  private _loadFriendFinish = false;
+
+  get loadFriendFinish(): boolean {
+    return this._loadFriendFinish;
+  }
 
   get FriendList() {
     return this.friendList;
@@ -28,6 +37,7 @@ export class FriendService {
   get FromMeRequest() {
     return this.friendRequestFromMe;
   }
+
   get ToMeRequest() {
     return this.friendRequestToMe;
   }
@@ -35,7 +45,7 @@ export class FriendService {
   constructor(
     private httpClient: HttpClient,
     private notificationService: NotificationService,
-    private router: Router
+    private router: Router,
   ) {
     this.loadMoreFriend();
     this.loadMoreFromMeRequest();
@@ -46,7 +56,7 @@ export class FriendService {
     return this.notificationService.FriendRelationshipObservable.subscribe(
       (not) => {
         this.handleNotification(not);
-      }
+      },
     );
   }
 
@@ -56,12 +66,13 @@ export class FriendService {
 
   searchByUsername(username: string) {
     return this.httpClient.get(
-      `${environment.apiUrl}/rest/users?username=${username}`
+      `${environment.apiUrl}/rest/users?username=${username}`,
     );
   }
 
   loadMoreFriend() {
     if (this.friendPage === this.maxFriendPage) {
+      this._loadFriendFinish = true;
       return;
     }
     const params = new HttpParams()
@@ -133,7 +144,7 @@ export class FriendService {
     this.httpClient
       .put(
         `${environment.apiUrl}/rest/relationships/friend-requests/${user.id}`,
-        {}
+        {},
       )
       .subscribe({
         next: (id: any) => {
@@ -156,11 +167,11 @@ export class FriendService {
     this.httpClient
       .delete(
         `${environment.apiUrl}/rest/relationships/friend-requests/${id}`,
-        {}
+        {},
       )
       .subscribe(() => {
         this.friendRequestFromMe = this.friendRequestFromMe.filter(
-          (e) => e.id !== id
+          (e) => e.id !== id,
         );
       });
   }
@@ -169,11 +180,11 @@ export class FriendService {
     this.httpClient
       .post(
         `${environment.apiUrl}/rest/relationships/friend-requests/${id}`,
-        {}
+        {},
       )
       .subscribe((res: any) => {
         this.friendRequestToMe = this.friendRequestToMe.filter(
-          (e) => e.id !== id
+          (e) => e.id !== id,
         );
         this.friendList = [res, ...this.friendList];
       });
@@ -183,17 +194,21 @@ export class FriendService {
     this.httpClient
       .delete(
         `${environment.apiUrl}/rest/relationships/friend-requests/${id}`,
-        {}
+        {},
       )
       .subscribe(() => {
         this.friendRequestToMe = this.friendRequestToMe.filter(
-          (e) => e.id !== id
+          (e) => e.id !== id,
         );
       });
   }
 
   getFriendByFriendId(id: string) {
     return this.friendList.find((e) => e.friend.id === id);
+  }
+
+  getFriendByUsername(username: string): FriendRelationship | undefined {
+    return this.friendList.find((e) => e.friend.username === username);
   }
 
   getFromMeRequestByFriendId(id: string) {
@@ -207,7 +222,7 @@ export class FriendService {
   handleNotification(notification: AppNotification) {
     if (notification.type === ONLINE_STATUS_CHANGE) {
       this.friendList = this.friendList.filter(
-        (e) => e.id !== notification.content.id
+        (e) => e.id !== notification.content.id,
       );
       if (notification.content.friend.online) {
         this.friendList = [notification.content, ...this.friendList];
@@ -222,7 +237,7 @@ export class FriendService {
     } else {
       this.friendList = [notification.content, ...this.friendList];
       this.friendRequestFromMe = this.friendRequestFromMe.filter(
-        (e) => e.user.id !== notification.content.friend.id
+        (e) => e.user.id !== notification.content.friend.id,
       );
     }
   }
