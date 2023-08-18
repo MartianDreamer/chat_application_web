@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Client } from '@stomp/stompjs';
-import { Subject } from 'rxjs';
-import { AuthenticationService } from 'src/app/service/authentication.service';
-import { environment } from 'src/environments/environment';
-import { AppNotification } from '../model/notification';
-import * as SockJS from 'sockjs-client';
+import {Injectable} from '@angular/core';
+import {Client} from '@stomp/stompjs';
+import {Subject} from 'rxjs';
+import {AuthenticationService} from 'src/app/service/authentication.service';
+import {environment} from 'src/environments/environment';
+import {AppNotification} from '../model/notification';
 
 @Injectable()
 export class WebsocketConnectService {
@@ -13,7 +12,7 @@ export class WebsocketConnectService {
 
   constructor(private authService: AuthenticationService) {
     this.client = new Client({
-      webSocketFactory: () => new SockJS(environment.wsUrl),
+      webSocketFactory: () => new WebSocket(environment.wsUrl),
       connectHeaders: {
         Authorization: `Bearer ${this.authService.AccessToken}`,
       },
